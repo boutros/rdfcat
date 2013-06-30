@@ -50,3 +50,16 @@
     (into {}
           (for [[k v] solution]
             [k (:value v)]))))
+
+(defn extract
+  "Extract selected variables from solutions. Return a set of maps."
+  [vars solutions]
+  (set (remove empty? (map #(select-keys % vars) solutions))))
+
+(defn extract-ensure-all
+  "Extract selected variables from solutions. Discard solutions which do not
+  contain all variables. Returns a seq of maps."
+  [vars solutions]
+  (->> solutions
+       (extract vars)
+       (remove #(< (count %) (count vars)))))
