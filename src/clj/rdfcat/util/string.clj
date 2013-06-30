@@ -1,4 +1,5 @@
-(ns rdfcat.util.string)
+(ns rdfcat.util.string
+  "String transformation functions")
 
 (defn date-clean [s]
   "Takes a string and return a 4-digit year as integer,
