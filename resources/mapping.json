@@ -2,7 +2,7 @@
   "settings": {
     "index": {
       "analysis": {
-        "index_analyzer": {
+        "analyzer": {
           "str_index_analyzer": {
             "type": "custom",
             "tokenizer": "standard",
@@ -10,9 +10,7 @@
               "lowercase",
               "mynGram"
             ]
-          }
-        },
-        "search_analyzer": {
+          },
           "str_search_analyzer": {
             "type": "custom",
             "tokenizer": "standard",
@@ -37,14 +35,15 @@
     "work": {
       "index_analyzer": "str_index_analyzer",
       "search_analyzer": "str_search_analyzer",
+      "_source": {
+        "enabled": true,
+        "compress": true
+      },
       "properties": {
         "_id": {
+          "type": "string",
           "index": "not_analyzed",
           "store": "yes"
-        },
-        "_source": {
-          "enabled": true,
-          "compress": true
         },
         "title": {
           "type": "string",
@@ -53,6 +52,7 @@
           "term_vector": "yes"
         },
         "creator": {
+          "type": "multi_field",
           "fields": {
             "id": {
               "type": "string",
@@ -68,6 +68,7 @@
           }
         },
         "subject": {
+          "type": "multi_field",
           "fields": {
             "id": {
               "type": "string",
@@ -83,6 +84,7 @@
           }
         },
         "edition": {
+          "type": "multi_field",
           "fields": {
             "id": {
               "type": "string",
@@ -110,6 +112,7 @@
               "index": "not_analyzed"
             },
             "creator": {
+              "type": "multi_field",
               "fields": {
                 "id": {
                   "type": "string",
