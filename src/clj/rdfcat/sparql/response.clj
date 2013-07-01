@@ -19,7 +19,7 @@
 
 (defn fetch
   "Performs SPARQL request by sending the query to the SPARQL endpoint via HTTP.
-  Expects query as a string or query-fn defined by defquery. 
+  Expects query as a string or query-fn defined by defquery.
   Returns the parsed JSON with all keys transfomed to symbols."
   [q]
   (->> (client/get
@@ -134,10 +134,11 @@
                         (extract [:editionsubject :editionsubjectlabel] solutions)))
      :edition (->> (for [e editions]
                      (extract-where :edition e
-                                    [:edition :editionlang :editionformat :editionyear]
+                                    [:edition :editionlang :editionformat :editionyear :editiontitle]
                                     solutions))
                    (map #(rename-keys % translation-map))
                    (map #(update-in % [:id] first))
+                   (map #(update-in % [:title] first))
                    (map #(update-in % [:year] date-clean))
                    (map #(assoc % :creator []))
                    (map #(update-in %1 [:creator] into
