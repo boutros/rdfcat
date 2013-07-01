@@ -52,8 +52,7 @@
           "term_vector": "yes"
         },
         "creator": {
-          "type": "multi_field",
-          "fields": {
+          "properties": {
             "id": {
               "type": "string",
               "store": "yes",
@@ -68,8 +67,7 @@
           }
         },
         "subject": {
-          "type": "multi_field",
-          "fields": {
+          "properties": {
             "id": {
               "type": "string",
               "store": "yes",
@@ -84,8 +82,7 @@
           }
         },
         "edition": {
-          "type": "multi_field",
-          "fields": {
+          "properties": {
             "id": {
               "type": "string",
               "store": "yes",
@@ -112,8 +109,7 @@
               "index": "not_analyzed"
             },
             "creator": {
-              "type": "multi_field",
-              "fields": {
+              "properties": {
                 "id": {
                   "type": "string",
                   "store": "yes",
