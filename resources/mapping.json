@@ -1,0 +1,137 @@
+{
+  "settings": {
+    "index": {
+      "analysis": {
+        "index_analyzer": {
+          "str_index_analyzer": {
+            "type": "custom",
+            "tokenizer": "standard",
+            "filter": [
+              "lowercase",
+              "mynGram"
+            ]
+          }
+        },
+        "search_analyzer": {
+          "str_search_analyzer": {
+            "type": "custom",
+            "tokenizer": "standard",
+            "filter": [
+              "standard",
+              "lowercase",
+              "mynGram"
+            ]
+          }
+        },
+        "filter": {
+          "mynGram": {
+            "type": "nGram",
+            "min_gram": 2,
+            "max_gram": 20
+          }
+        }
+      }
+    }
+  },
+  "mappings": {
+    "work": {
+      "index_analyzer": "str_index_analyzer",
+      "search_analyzer": "str_search_analyzer",
+      "properties": {
+        "_id": {
+          "index": "not_analyzed",
+          "store": "yes"
+        },
+        "_source": {
+          "enabled": true,
+          "compress": true
+        },
+        "title": {
+          "type": "string",
+          "store": "yes",
+          "index": "analyzed",
+          "term_vector": "yes"
+        },
+        "creator": {
+          "fields": {
+            "id": {
+              "type": "string",
+              "store": "yes",
+              "index": "not_analyzed"
+            },
+            "name": {
+              "type": "string",
+              "store": "yes",
+              "index": "analyzed",
+              "term_vector": "yes"
+            }
+          }
+        },
+        "subject": {
+          "fields": {
+            "id": {
+              "type": "string",
+              "store": "yes",
+              "index": "not_analyzed"
+            },
+            "label": {
+              "type": "string",
+              "store": "yes",
+              "index": "analyzed",
+              "term_vector": "yes"
+            }
+          }
+        },
+        "edition": {
+          "fields": {
+            "id": {
+              "type": "string",
+              "store": "yes",
+              "index": "not_analyzed"
+            },
+            "title": {
+              "type": "string",
+              "store": "yes",
+              "index": "analyzed",
+              "term_vector": "yes"
+            },
+            "year": {
+              "type": "integer",
+              "store": "yes"
+            },
+            "format": {
+              "type": "string",
+              "store": "yes",
+              "index": "not_analyzed"
+            },
+            "language": {
+              "type": "string",
+              "store": "yes",
+              "index": "not_analyzed"
+            },
+            "creator": {
+              "fields": {
+                "id": {
+                  "type": "string",
+                  "store": "yes",
+                  "index": "not_analyzed"
+                },
+                "name": {
+                  "type": "string",
+                  "store": "yes",
+                  "index": "analyzed",
+                  "term_vector": "yes"
+                },
+                "role": {
+                  "type": "string",
+                  "store": "yes",
+                  "index": "not_analyzed"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
