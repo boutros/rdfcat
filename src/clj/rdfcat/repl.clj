@@ -1,7 +1,6 @@
 (ns rdfcat.repl
   (:require [rdfcat.sparql.query :as query]
-            [rdfcat.sparql.response :refer [fetch bindings solutions extract
-                                            extract-ensure-all]])
+            [rdfcat.sparql.response :refer :all])
   (:import java.net.URI))
 
 
