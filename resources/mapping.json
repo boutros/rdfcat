@@ -37,32 +37,26 @@
       "search_analyzer": "str_search_analyzer",
       "_source": {
         "enabled": true,
-        "compress": true
+        "compress": true,
       },
       "properties": {
         "_id": {
           "type": "string",
           "index": "not_analyzed",
-          "store": "yes"
         },
         "title": {
           "type": "string",
-          "store": "yes",
           "index": "analyzed",
-          "term_vector": "yes"
         },
         "creator": {
           "properties": {
             "id": {
               "type": "string",
-              "store": "yes",
               "index": "not_analyzed"
             },
             "name": {
               "type": "string",
-              "store": "yes",
               "index": "analyzed",
-              "term_vector": "yes"
             }
           }
         },
@@ -70,14 +64,11 @@
           "properties": {
             "id": {
               "type": "string",
-              "store": "yes",
               "index": "not_analyzed"
             },
             "label": {
               "type": "string",
-              "store": "yes",
               "index": "analyzed",
-              "term_vector": "yes"
             }
           }
         },
@@ -85,45 +76,39 @@
           "properties": {
             "id": {
               "type": "string",
-              "store": "yes",
               "index": "not_analyzed"
             },
             "title": {
               "type": "string",
-              "store": "yes",
               "index": "analyzed",
-              "term_vector": "yes"
+            },
+            "subtitle": {
+              "type": "string",
+              "index": "analyzed",
             },
             "year": {
               "type": "integer",
-              "store": "yes"
             },
             "format": {
               "type": "string",
-              "store": "yes",
               "index": "not_analyzed"
             },
             "language": {
               "type": "string",
-              "store": "yes",
               "index": "not_analyzed"
             },
             "creator": {
               "properties": {
                 "id": {
                   "type": "string",
-                  "store": "yes",
                   "index": "not_analyzed"
                 },
                 "name": {
                   "type": "string",
-                  "store": "yes",
                   "index": "analyzed",
-                  "term_vector": "yes"
                 },
                 "role": {
                   "type": "string",
-                  "store": "yes",
                   "index": "not_analyzed"
                 }
               }
