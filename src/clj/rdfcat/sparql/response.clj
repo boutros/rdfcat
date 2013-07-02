@@ -128,7 +128,7 @@
                          (map #(rename-keys % {:editioncontributorname :name
                                                :editioncontributor :id})))]
     {:title (->> bindings :title first)
-     :_id (->> bindings :id first)
+     :id (->> bindings :id first)
      :creator (vec (map #(rename-keys % translation-map)
                         (extract [:creator :creatorname] solutions)))
      :subject (vec (map #(rename-keys % translation-map)

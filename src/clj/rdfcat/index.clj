@@ -28,7 +28,7 @@
        :work))
 
 (defn index! [work]
-  (esd/put "rdfcat" "work" (:_id work) work))
+  (esd/put "rdfcat" "work" (:id work) work))
 
 (defn index-all! []
   (info "Creating index & mapping")
