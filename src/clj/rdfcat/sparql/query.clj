@@ -15,7 +15,7 @@
                       :fabio "<http://purl.org/spar/fabio/>"})
 
 (defquery all-works [start n]
-  (select :work)
+  (select-distinct :work)
   (from (URI. "http://data.deichman.no/books"))
   (where :work [:fabio :hasManifestation] :edition )
   (offset start)
