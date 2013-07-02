@@ -84,7 +84,8 @@
   {:creator :id :creatorname :name
    :edition :id :editiontitle :title :editionyear :year
    :editionlang :language :editionformat :format
-   :editionsubject :id :editionsubjectlabel :label})
+   :editionsubject :id :editionsubjectlabel :label
+   :editionsubtitle :subtitle})
 
 (defn- select-edition-creator [ed creators]
   (for [c creators :when (= (:edition c) ed)]
@@ -127,18 +128,20 @@
                          (map #(rename-keys % {:editioncontributorname :name
                                                :editioncontributor :id})))]
     {:title (->> bindings :title first)
-     :id (->> bindings :id first)
+     :_id (->> bindings :id first)
      :creator (vec (map #(rename-keys % translation-map)
                         (extract [:creator :creatorname] solutions)))
      :subject (vec (map #(rename-keys % translation-map)
                         (extract [:editionsubject :editionsubjectlabel] solutions)))
      :edition (->> (for [e editions]
                      (extract-where :edition e
-                                    [:edition :editionlang :editionformat :editionyear :editiontitle]
+                                    [:edition :editionlang :editionformat :editionyear
+                                     :editiontitle :editionsubtitle]
                                     solutions))
                    (map #(rename-keys % translation-map))
                    (map #(update-in % [:id] first))
                    (map #(update-in % [:title] first))
+                   (map #(update-in % [:subtitle] first))
                    (map #(update-in % [:year] date-clean))
                    (map #(assoc % :creator []))
                    (map #(update-in %1 [:creator] into

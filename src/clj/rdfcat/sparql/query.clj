@@ -14,6 +14,14 @@
                       :dc "<http://purl.org/dc/terms/>"
                       :fabio "<http://purl.org/spar/fabio/>"})
 
+(defquery all-works [start n]
+  (select :work)
+  (from (URI. "http://data.deichman.no/books"))
+  (where :work [:fabio :hasManifestation] :edition )
+  (offset start)
+  (limit n)
+  (order-by :work))
+
 (defquery work
   [work]
   (select :id :title :creator :creatorname :contributor :contributorname

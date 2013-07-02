@@ -4,12 +4,13 @@
   :dependencies [[org.clojure/clojure "1.5.1"]
                  [ring "1.1.8"]
                  [clj-http "0.7.3"]
+                 [clojurewerkz/elastisch "1.2.0-beta1"]
                  [matsu "0.1.3-SNAPSHOT"]]
   :plugins [[lein-cljsbuild "0.3.0"]
             [lein-ring "0.8.3"]]
   ;:hooks [leiningen.cljsbuild]
   :source-paths ["src/clj"]
-  :cljsbuild { 
+  :cljsbuild {
               :builds {
                        :main {
                               :source-paths ["src/cljs"]
