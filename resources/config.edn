@@ -1,6 +1,9 @@
 {
  :http-options {:throw-exceptions true :debug false :debug-body false}
- 
+
  :endpoint "http://marc2rdf.deichman.no/sparql"
  :dataset "http://data.deichman.no/books"
+
+ :index-log "index.log"
+ :app-log "app.log"
  }

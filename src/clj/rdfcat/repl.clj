@@ -5,13 +5,6 @@
             [clojurewerkz.elastisch.rest.document :as esd])
   (:import java.net.URI))
 
-
-
-(defn get-works [offset limit]
-  (->> (fetch (query/all-works offset limit))
-       bindings
-       :work))
-
 (comment
 
 (def w1 (URI. "http://data.deichman.no/work/x18264400_alice_in_wonderland"))
@@ -27,9 +20,3 @@
 (def r4 (fetch (query/work w4)))
 (def r5 (fetch (query/work w5)))
 )
-
-(defn index-all! []
-  (doseq [work (get-works 0 1000)]
-    (if (->> work URI. query/work fetch :results :bindings empty?)
-      (println (str work "ikke indeksert!"))
-      (println (str work "OK")))))

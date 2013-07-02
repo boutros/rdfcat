@@ -5,7 +5,8 @@
                  [ring "1.1.8"]
                  [clj-http "0.7.3"]
                  [clojurewerkz/elastisch "1.2.0-beta1"]
-                 [matsu "0.1.3-SNAPSHOT"]]
+                 [matsu "0.1.3-SNAPSHOT"]
+                 [com.taoensso/timbre "2.1.2"]]
   :plugins [[lein-cljsbuild "0.3.0"]
             [lein-ring "0.8.3"]]
   ;:hooks [leiningen.cljsbuild]
@@ -18,5 +19,5 @@
                                          :optimizations :simple
                                          :pretty-print true}
                               :jar true}}}
-  :main rdfcat.repl
+  :main rdfcat.index
   :ring {:handler rdfcat.server/app})

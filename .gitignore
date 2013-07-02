@@ -2,3 +2,4 @@
 target
 resources/public/js/cljs.js
 doc/notes.md
+*.log
