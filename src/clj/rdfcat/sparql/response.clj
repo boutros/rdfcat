@@ -137,7 +137,7 @@
                        (map #(str/split % #"\s-\s"))
                        flatten
                        set)
-                  (disj "Norvegica")
+                  (disj "Norvegica" "genre")
                   vec)
      :edition (->> (for [e editions]
                      (extract-where :edition e
