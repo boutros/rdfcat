@@ -12,11 +12,12 @@
 (def w3 (URI. "http://data.deichman.no/work/x16485900_ruffen_paa_nye_eventyr"))
 (def w4 (URI. "http://data.deichman.no/work/x34275600_fars_hus"))
 (def w5 (URI. "http://data.deichman.no/work/x12276900_sult"))
-
+(def w6 (URI. "http://data.deichman.no/work/x30496100_dmitrij_sjostakovitsj"))
 
 (def r1 (fetch (query/work w1)))
 (def r2 (fetch (query/work w2)))
 (def r3 (fetch (query/work w3)))
 (def r4 (fetch (query/work w4)))
 (def r5 (fetch (query/work w5)))
+
 )

@@ -113,6 +113,11 @@
                       (map #(assoc % :role "creator"))
                       (map #(rename-keys % {:editioncreatorname :name
                                             :editioncreator :id})))
+        editors (->> (extract-ensure-all
+                       [:edition :editioneditor :editioneditorname] solutions)
+                     (map #(assoc % :role "editor"))
+                     (map #(rename-keys % {:editioneditorname :name
+                                           :editioneditor :id})))
         illustrators (->> (extract-ensure-all
                        [:edition :editionillustrator :editionillustratorname] solutions)
                           (map #(assoc % :role "illustrator"))
@@ -162,4 +167,6 @@
                                     (select-edition-creator (:id %1) contributors)))
                    (map #(update-in %1 [:creator] into
                                     (select-edition-creator (:id %1) actors)))
+                   (map #(update-in %1 [:creator] into
+                                    (select-edition-creator (:id %1) editors)))
                    vec)}))
