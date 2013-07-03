@@ -39,7 +39,7 @@
               :settings (:settings mapping)
               :mappings (:mappings mapping)))
 
-(defn index-all! [offset limit]
+(defn index-works [offset limit]
   (esr/connect! "http://127.0.0.1:9200")
   (info "Start indexing batch" offset "-" (+ offset limit ))
   (doseq [work (get-works offset limit)]
@@ -50,3 +50,7 @@
           (index! (populate-work res))))
       (catch Exception e (error "Error indexing work:" work "because" (.getMessage e)))))
   (info "Done indexing batch" offset "-" (+ offset limit)))
+
+(defn index-all! []
+  (doseq [i (range 0 320000 10000)]
+    (index-works i 10000)))
