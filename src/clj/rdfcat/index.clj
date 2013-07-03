@@ -40,12 +40,12 @@
 
 (defn index-all! [offset limit]
   (esr/connect! "http://127.0.0.1:9200")
-  (info "Start indexing batch of" limit "works")
+  (info "Start indexing batch" offset "-" (+ offset limit ))
   (doseq [work (get-works offset limit)]
     (try
       (let [res (->> work URI. query/work fetch)]
         (if (->> res :results :bindings empty?)
-          (info "Insuficient information for work: " work)
+          (info "Insuficient information for work:" work)
           (index! (populate-work res))))
-      (catch Exception e (error "Error indexing work:" work "because " e))))
-  (info "Done indexing batch of" limit))
+      (catch Exception e (error "Error indexing work:" work "because" (.getMessage e)))))
+  (info "Done indexing batch" offset "-" (+ offset limit)))
