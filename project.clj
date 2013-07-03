@@ -19,5 +19,5 @@
                                          :optimizations :simple
                                          :pretty-print true}
                               :jar true}}}
-  :main rdfcat.index
+  :main rdfcat.repl
   :ring {:handler rdfcat.server/app})

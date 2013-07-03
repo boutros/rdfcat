@@ -26,10 +26,9 @@
   [work]
   (select :id :title :creator :creatorname :contributor :contributorname
           :edition :editionlang :editionyear :editiontitle :editionsubtitle :editionformat
-          :editioncreator :editioncreatorname
+          :editioncreator :editioncreatorname :editionsubjectlabel
           :editiontranslator :editiontranslatorname :editioneditor :editioneditorname
           :editioncontributor :editioncontributorname :editionillustrator :editionillustratorname
-          :editionsubject :editionsubjectlabel
           :director :directorname :actor :actorname)
   (from (URI. "http://data.deichman.no/books"))
   (where work [:fabio :hasManifestation] :edition \;
@@ -60,6 +59,5 @@
                     :editioncontributor [:foaf :name] :editioncontributorname \.)
           (optional :edition [:bibo :illustrator] :editionillustrator \.
                     :editionillustrator [:foaf :name] :editionillustratorname \.)
-          (optional :edition [:dc :subject] :subjectnarrower \.
-                    :editionsubject [:skos :narrower] :subjectnarrower \;
-                                    [:skos :prefLabel] :editionsubjectlabel)))
+          (optional :edition [:dc :subject] :editionsubject \.
+                    :editionsubject [:skos :prefLabel] :editionsubjectlabel \.)))

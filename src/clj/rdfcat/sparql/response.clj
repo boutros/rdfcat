@@ -2,6 +2,7 @@
   "Functions to fetch, parse and transform the SPARQL query responses adhering
   to the JSON format spec at http://www.w3.org/TR/rdf-sparql-json-res/"
   (:require [clojure.walk :refer [keywordize-keys]]
+            [clojure.string :as str]
             [clojure.set :refer [rename-keys]]
             [clj-http.client :as client]
             [cheshire.core :refer [parse-string]]
@@ -84,7 +85,7 @@
   {:creator :id :creatorname :name
    :edition :id :editiontitle :title :editionyear :year
    :editionlang :language :editionformat :format
-   :editionsubject :id :editionsubjectlabel :label
+   :editionsubjectlabel :label
    :editionsubtitle :subtitle})
 
 (defn- select-edition-creator [ed creators]
@@ -131,8 +132,13 @@
      :id (->> bindings :id first)
      :creator (vec (map #(rename-keys % translation-map)
                         (extract [:creator :creatorname] solutions)))
-     :subject (vec (map #(rename-keys % translation-map)
-                        (extract [:editionsubject :editionsubjectlabel] solutions)))
+     :subject (-> (->> bindings
+                       :editionsubjectlabel
+                       (map #(str/split % #"\s-\s"))
+                       flatten
+                       set)
+                  (disj "Norvegica")
+                  vec)
      :edition (->> (for [e editions]
                      (extract-where :edition e
                                     [:edition :editionlang :editionformat :editionyear
