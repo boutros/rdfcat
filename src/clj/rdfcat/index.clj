@@ -30,20 +30,22 @@
 (defn index! [work]
   (esd/put "rdfcat" "work" (:id work) work))
 
-(defn index-all! []
+(defn setup-index []
   (info "Creating index & mapping")
   (esr/connect! "http://127.0.0.1:9200")
   (esi/delete "rdfcat")
   (esi/create "rdfcat"
               :settings (:settings mapping)
-              :mappings (:mappings mapping))
-  (info "Done creating index rdfcat/work")
-  (info "Start indexing batch of 9000 works")
-  (doseq [work (get-works 0 9000)]
+              :mappings (:mappings mapping)))
+
+(defn index-all! [offset limit]
+  (esr/connect! "http://127.0.0.1:9200")
+  (info "Start indexing batch of" limit "works")
+  (doseq [work (get-works offset limit)]
     (try
       (let [res (->> work URI. query/work fetch)]
         (if (->> res :results :bindings empty?)
           (info "Insuficient information for work: " work)
           (index! (populate-work res))))
       (catch Exception e (error "Error indexing work:" work "because " e))))
-  (info "Done indexing batch of 9000"))
+  (info "Done indexing batch of" limit))
