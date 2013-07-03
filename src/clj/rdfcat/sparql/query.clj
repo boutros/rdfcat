@@ -19,8 +19,7 @@
   (from (URI. "http://data.deichman.no/books"))
   (where :work [:fabio :hasManifestation] :edition )
   (offset start)
-  (limit n)
-  (order-by :work))
+  (limit n))
 
 (defquery work
   [work]
