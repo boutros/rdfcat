@@ -12,7 +12,8 @@
                       :deichman "<http://data.deichman.no/>"
                       :skos "<http://www.w3.org/2004/02/skos/core#>"
                       :dc "<http://purl.org/dc/terms/>"
-                      :fabio "<http://purl.org/spar/fabio/>"})
+                      :fabio "<http://purl.org/spar/fabio/>"
+                      :muso "<http://purl.org/ontology/mo/>"})
 
 (defquery all-works [start n]
   (select-distinct :work)
@@ -28,7 +29,7 @@
           :editioncreator :editioncreatorname :editionsubjectlabel
           :editiontranslator :editiontranslatorname :editioneditor :editioneditorname
           :editioncontributor :editioncontributorname :editionillustrator :editionillustratorname
-          :director :directorname :actor :actorname)
+          :director :directorname :actor :actorname :editionmusicgenrelabel)
   (from (URI. "http://data.deichman.no/books"))
   (where work [:fabio :hasManifestation] :edition \;
               [:dc :title] :title \.
@@ -59,4 +60,6 @@
           (optional :edition [:bibo :illustrator] :editionillustrator \.
                     :editionillustrator [:foaf :name] :editionillustratorname \.)
           (optional :edition [:dc :subject] :editionsubject \.
-                    :editionsubject [:skos :prefLabel] :editionsubjectlabel \.)))
+                    :editionsubject [:skos :prefLabel] :editionsubjectlabel \.)
+          (optional :edition [:muso :genre] :editionmusicgenre \.
+                    :editionmusicgenre [:rdfs :label] :editionmusicgenrelabel)))

@@ -13,6 +13,7 @@
 (def w4 (URI. "http://data.deichman.no/work/x34275600_fars_hus"))
 (def w5 (URI. "http://data.deichman.no/work/x12276900_sult"))
 (def w6 (URI. "http://data.deichman.no/work/x30496100_dmitrij_sjostakovitsj"))
+(def w7 (URI. "http://data.deichman.no/work/x30297900_the_sultans_picnic"))
 
 (def r1 (fetch (query/work w1)))
 (def r2 (fetch (query/work w2)))

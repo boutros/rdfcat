@@ -139,6 +139,7 @@
                         (extract [:creator :creatorname] solutions)))
      :subject (-> (->> bindings
                        :editionsubjectlabel
+                       (into (bindings :editionmusicgenrelabel))
                        (map #(str/split % #"\s-\s"))
                        flatten
                        set)
