@@ -39,8 +39,8 @@
          (optional work [:dc :contributor] :contributor \.
                    :contributor [:foaf :name] :contributorname \.)
          :edition [:dc :title] :editiontitle \;
-                  [:dc :issued] :editionyear \;
                   [:dc :format] :editionformat \.
+          (optional :edition [:dc :issued] :editionyear \.)
           (optional :edition [:dc :language] :editionl \.
                     :editionl [:rdfs :label] :editionlang)
           (optional :edition [:fabio :hasSubtitle] :editionsubtitle)
