@@ -40,8 +40,10 @@
   (info "Done creating index rdfcat/work")
   (info "Start indexing batch of 9000 works")
   (doseq [work (get-works 0 9000)]
-    (let [res (->> work URI. query/work fetch)]
-      (if (->> res :results :bindings empty?)
-        (info (str "Insuficient information for work: " work))
-        (index! (populate-work res)))))
+    (try
+      (let [res (->> work URI. query/work fetch)]
+        (if (->> res :results :bindings empty?)
+          (info "Insuficient information for work: " work)
+          (index! (populate-work res))))
+      (catch Exception e (error "Error indexing work:" work "because " e))))
   (info "Done indexing batch of 9000"))
