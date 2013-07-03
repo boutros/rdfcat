@@ -19,6 +19,7 @@
 
 (timbre/set-config! [:appenders :spit :enabled?] true)
 (timbre/set-config! [:shared-appender-config :spit-filename] (:index-log config))
+(timbre/set-config! [:timestamp-pattern] "yyyy-MM-dd'T'HH:mm:ssZ")
 
 ; Indexing
 
