@@ -1,7 +1,7 @@
 (ns rdfcat.server
-  (:require [ring.adapter.jetty :as jetty]
-            [ring.middleware.resource :as resources]
-            [ring.util.response :as response])
+  (:require [compojure.core :refer [defroutes GET]]
+            [compojure.handler :as handler]
+            [compojure.route :as route])
   (:gen-class))
 
 (defn render-app []
@@ -21,13 +21,10 @@
         "</body>"
         "</html>")})
 
-(defn handler [request]
-  (render-app))
+(defroutes app-routes
+  (GET "/" [] (render-app))
+  (route/resources "/")
+  (route/not-found "Not Found."))
 
-(def app 
-  (-> handler
-    (resources/wrap-resource "public")))
-
-(defn -main [& args]
-  (jetty/run-jetty app {:port 3000}))
-
+(def app
+  (handler/site app-routes))
