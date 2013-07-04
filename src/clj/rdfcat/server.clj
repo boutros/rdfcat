@@ -2,11 +2,11 @@
   (:require [compojure.core :refer [defroutes GET]]
             [compojure.handler :as handler]
             [compojure.route :as route]
-            [net.cgrand.enlive-html :as html])
+            [net.cgrand.enlive-html :as html :refer [deftemplate]])
   (:gen-class))
 
-(html/deftemplate home "index.html" [overskrift]
-                  [:h1] (html/content overskrift))
+(deftemplate home "index.html" [overskrift]
+  [:h1] (html/content overskrift))
 
 (defroutes app-routes
   (GET "/" [] (home "Vælkomn."))
