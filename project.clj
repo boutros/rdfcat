@@ -3,6 +3,7 @@
   :url "http://github.com/boutros/rdfcat"
   :dependencies [[org.clojure/clojure "1.5.1"]
                  [compojure "1.1.5"]
+                 [enlive "1.1.1"]
                  [clj-http "0.7.3"]
                  [clojurewerkz/elastisch "1.2.0-beta1"]
                  [matsu "0.1.3-SNAPSHOT"]

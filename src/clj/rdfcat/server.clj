@@ -1,28 +1,15 @@
 (ns rdfcat.server
   (:require [compojure.core :refer [defroutes GET]]
             [compojure.handler :as handler]
-            [compojure.route :as route])
+            [compojure.route :as route]
+            [net.cgrand.enlive-html :as html])
   (:gen-class))
 
-(defn render-app []
-  {:status 200
-   :headers {"Content-Type" "text/html"}
-   :body
-   (str "<!DOCTYPE html>"
-        "<html>"
-        "<head>"
-        "<link rel=\"stylesheet\" href=\"css/style.css\" />"
-        "</head>"
-        "<body>"
-        "<div>"
-        "<p id=\"clickable\">Click me!</p>"
-        "</div>"
-        "<script src=\"js/cljs.js\"></script>"
-        "</body>"
-        "</html>")})
+(html/deftemplate home "index.html" [overskrift]
+                  [:h1] (html/content overskrift))
 
 (defroutes app-routes
-  (GET "/" [] (render-app))
+  (GET "/" [] (home "Vælkomn."))
   (route/resources "/")
   (route/not-found "Not Found."))
 
