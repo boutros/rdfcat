@@ -7,7 +7,7 @@
   (testing "main route"
     (let [response (app (request :get "/"))]
       (is (= (:status response) 200))
-      (is (= (get (:headers response ) "Content-Type") "text/html"))))
+      (is (= (get (:headers response ) "Content-Type") "text/html; charset=utf-8"))))
 
   (testing "not-found route"
     (let [response (app (request :get "/invalid"))]
