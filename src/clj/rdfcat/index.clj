@@ -54,3 +54,21 @@
 (defn index-all! []
   (doseq [i (range 0 320000 10000)]
     (index-works i 10000)))
+
+(defn retry-failed []
+  (esr/connect! "http://127.0.0.1:9200")
+  ;TODO increase read timeout to 3000 for retries
+  (info "Retrying indexing works from file 'failed.txt'")
+  (let [works (clojure.string/split (slurp "failed.txt") #"\n")
+        n (count works)
+        i (atom 0)]
+    (doseq [work works]
+      (try
+        (let [res (->> work URI. query/work fetch)]
+          (if (->> res :results :bindings empty?)
+            (info "Insuficient information for work:" work)
+            (do
+              (index! (populate-work res))
+              (swap! i inc))))
+        (catch Exception e (error "Error indexing work:" work "because" (.getMessage e)))))
+    (info "Done retrying. Sucessfully indexed" @i "of" n )))
