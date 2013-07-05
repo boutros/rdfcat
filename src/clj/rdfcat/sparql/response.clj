@@ -130,6 +130,7 @@
                                                :editiontranslator :id})))
         contributors (->> (extract-ensure-all
                            [:edition :editioncontributor :editioncontributorname] solutions)
+                         (remove #(= (:editioncontributorname %) "zzz"))
                          (map #(assoc % :role "contributor"))
                          (map #(rename-keys % {:editioncontributorname :name
                                                :editioncontributor :id})))]
