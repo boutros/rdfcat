@@ -141,6 +141,7 @@
      :subject (-> (->> bindings
                        :editionsubjectlabel
                        (into (bindings :editionmusicgenrelabel))
+                       (into (bindings :editiongenrelabel))
                        (map #(str/split % #"\s-\s"))
                        flatten
                        set)
