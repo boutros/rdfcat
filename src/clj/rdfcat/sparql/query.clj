@@ -61,7 +61,8 @@
           (optional :edition [:bibo :illustrator] :editionillustrator \.
                     :editionillustrator [:foaf :name] :editionillustratorname \.)
           (optional :edition [:dc :subject] :editionsubject \.
-                    :editionsubject [:skos :prefLabel] :editionsubjectlabel \.)
+                    (union (group :editionsubject [:skos :prefLabel] :editionsubjectlabel \.)
+                           (group :editionsubject [:foaf :name] :editionsubjectlabel \.)))
           (optional :edition [:muso :genre] :editionmusicgenre \.
                     :editionmusicgenre [:rdfs :label] :editionmusicgenrelabel)
           (optional :edition [:dbo :literaryGenre] :genre \.
