@@ -145,7 +145,14 @@
                        (map #(str/split % #"\s-\s"))
                        flatten
                        set)
-                  (disj "Norvegica" "genre")
+                  (disj "Norvegica" "genre" "GRUPPE-SKJØNNSAL" "GRUPPE-1"
+                        "GRUPPE-10" "GRUPPE-11" "GRUPPE-12" "GRUPPE-13"
+                        "GRUPPE-14" "GRUPPE-15" "GRUPPE-16" "GRUPPE-17"
+                        "GRUPPE-18" "GRUPPE-19" "GRUPPE-20" "GRUPPE-21"
+                        "GRUPPE-2a" "GRUPPE-2b" "GRUPPE-3" "GRUPPE-4"
+                        "GRUPPE-5" "GRUPPE-6" "GRUPPE-7" "GRUPPE-8" "GRUPPE-9"
+                        "GRUPPE-DATA" "GRUPPE-MILJØ" "GRUPPE-OSLO-HYLLA"
+                        "GRUPPE-SKJØNNSAL" "GRUPPE-SLEKT" "GRUPPE-SPRÅK")
                   vec)
      :edition (->> (for [e editions]
                      (extract-where :edition e
