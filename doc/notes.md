@@ -38,6 +38,21 @@ kanskje:
 work.creators [ { id, name/label, role } ]
 hvor role = author|editor|director|editor|actor|translator|etc..
 
+hva med litteær form?
+SELECT DISTINCT ?format_label
+WHERE { ?s <http://data.deichman.no/literaryFormat> ?format . ?format rdfs:label ?format_label }
+
+sjanger?
+SELECT DISTINCT ?genreLabel 
+FROM <http://data.deichman.no/books>
+WHERE { ?s <http://dbpedia.org/ontology/literaryGenre> ?genre . ?genre rdfs:label ?genreLabel }
+
+isåfall remove de med label #"GRUPPE-\n|SKJØNNSAL|" etc
+
+Hva er egentlig forskjellen på sjanger, litterær for og emne?
+For bibliotekaren - og for vanlige folk?
+
+
 
 INDEKSERING
 ===========
@@ -150,5 +165,21 @@ Filtrer resultat (alle disse gjelder utgave)
 * språk
 * format
 
+
+SPRÅK
+=====
+
+creator.role     på norsk
+----------------------------------
+contributor(bok) bidrag: Jon Bing, Carl 
+contributor(cd)  medvirkende: x, y, orchestar ditt
+editor           redaktør: Hr Hansen
+                 redaktører: A, B
+dc.creator(bok)  forfatter: Knnut hamsn
+dc.creator(cd)   artist: The Beatles
+actor            skuespillere: Jhonny depp osv
+director         regissør: F. F. Coppola
+illustrator      illustrert av X
+translator       oversatt av Y
 
 
