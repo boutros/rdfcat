@@ -40,8 +40,28 @@
    "http://data.deichman.no/format/Audiobook" "img/audiobook.png"})
 
 (defsnippet p2-results "p2-results.html" [:table.p2-results]
-  [results]
+  [results page limit]
   [:caption] (html/content (str (->> results :hits :total) " treff (" (->> results :took) "ms)"))
+  [:td.p2-pagination] (if (> page 1)
+                               (html/prepend {:tag :a :attrs {:class "p2-prev"} :content "forrige"})
+                               identity)
+  [:td.p2-pagination] (if (and (> (->> results :hits :total) limit)
+                                      (< page (/ (->> results :hits :total) limit)))
+                               (html/append {:tag :a :attrs {:class "p2-next"} :content "neste"})
+                               identity)
+  [:a.p2-pagenum] (let [max-pages (->> (/ (->> results :hits :total float) limit) Math/round int inc)
+                               upto (if (< max-pages 12) max-pages 7)
+                               pages (->> max-pages (range 1) (take upto) (into []))]
+                               (html/clone-for [p (if (> max-pages upto)
+                                                    (if (and (> page upto) (not= max-pages page))
+                                                      (conj pages "..." page "..." max-pages)
+                                                      (conj pages "..." max-pages))
+                                                    pages)]
+                                 (if (= p page)
+                                   (html/substitute {:tag :span :attrs {:id "p2-curpage"} :content (str p)})
+                                   (if (= "..." p)
+                                     (html/substitute {:tag :span :content "..."})
+                                     (html/content (str p))))))
   [:tbody.p2-work]
   (html/clone-for [work (->> results :hits :hits)]
     [:td.p2-author :strong] (html/content (or (->> work :_source :creator first :name) "(div)"))
@@ -78,21 +98,29 @@
           {:multi_match
            {:query what :fields ["work.title" "edition.title" "work.subject"]}}]})
 
-(defn p2-search [who what]
+(defn p2-search [who what offset limit]
   (let [hvem (if (empty? who) nil who)
         hva (if (empty? what) nil what)
         query (cond
                 (every? string? [hvem hva]) (who-and-what hvem hva)
                 (string? hvem) (only-who hvem)
                 (string? hva) (only-what hva))]
-    (esd/search "rdfcat" "work" :size 10 :query {:bool query})))
+    (esd/search "rdfcat" "work" :from offset :size limit :query {:bool query})))
 
 (defroutes app-routes
   (GET "/" [] (redirect "p2"))
   (GET "/p1" [] (anne-lena))
   (GET "/p2" [] (petter))
   (GET "/search/p1" [term] "OK") ;use multi search  /_msearh
-  (POST "/search/p2" [who what] (html-response (html/emit* (p2-results (p2-search who what)))))
+  (POST "/search/p2" [who what page]
+        (let [limit (config :p2-results-per-page)
+              offset (* (dec page) limit)]
+          (html-response
+            (html/emit*
+              (p2-results
+                (p2-search who what offset limit)
+                page
+                limit)))))
   (route/resources "/")
   (route/not-found "Not Found."))
 
