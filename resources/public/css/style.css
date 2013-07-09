@@ -125,7 +125,7 @@ tbody.p2-work { border-bottom: 1px solid #ccc;}
 td.p2-title, td.p2-subjects { padding: 0.5em 0;}
 td.p2-edition { font-size: 0.88em;}
 tr.p2-edition:hover { background:#eee; }
-td.format.p2-edition { width: 20px; }
+td.format.p2-edition { width: 40px; }
 td.title.p2-edition { width:50%;}
 td.p2-author { max-width:175px; padding-right:1em;}
 td.year.p2-edition { width: 50px; text-align: center;}
@@ -135,3 +135,4 @@ span.p2-subjects { display: inline-block; width: 100%;}
 span.p2-subject { margin-right:1em; text-transform: uppercase; font-size:0.8em; display:inline-block;
                   letter-spacing:0.1em; background:#bbb; color:#fff; margin: 1px; padding:1px; font-weight: normal;}
 span.triangle:hover { cursor: pointer;}
+img.p2-icon { float:left;}

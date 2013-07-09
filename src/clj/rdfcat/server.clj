@@ -24,6 +24,17 @@
 
 (deftemplate petter "p2.html" [] )
 
+(def icon-mapping
+  {"http://data.deichman.no/format/Book" "img/book.png"
+   "http://data.deichman.no/format/Music" "img/music.png"
+   "http://data.deichman.no/format/Compact_Disc" "img/CD.png"
+   "http://data.deichman.no/format/Compact_Cassette" "img/cassette.png"
+   "http://data.deichman.no/format/DVD" "img/video.png"
+   "http://data.deichman.no/format/Videotape" "img/video.png"
+   "http://data.deichman.no/format/Blu-ray_Disk" "img/video.png"
+   "http://data.deichman.no/format/Sheet_music" "img/clef.png"
+   "http://data.deichman.no/format/Audiobook" "img/audiobook.png"})
+
 (defsnippet p2-results "p2-results.html" [:table.p2-results]
   [results]
   [:caption] (html/content (str (->> results :hits :total) " treff (" (->> results :took) "ms)"))
@@ -36,6 +47,8 @@
     [:tr.p2-edition]
     (html/clone-for
       [edition (sort-by :year (->> work :_source :edition))]
+      [:td.format :img] (html/clone-for [f (edition :format)]
+                                   (html/set-attr :src (get icon-mapping f "?")))
       [:td.title] (html/content (edition :title))
       [:td.year] (html/content (str (edition :year)))
       [:td.lang] (html/content (clojure.string/join ", " (remove #(= "Norsk" %) (edition :language)))))))
