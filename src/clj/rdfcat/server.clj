@@ -43,45 +43,45 @@
   [results page limit]
   [:caption] (html/content (str (->> results :hits :total) " treff (" (->> results :took) "ms)"))
   [:td.p2-pagination] (if (> page 1)
-                               (html/prepend {:tag :a :attrs {:class "p2-prev"} :content "forrige"})
-                               identity)
+                        (html/prepend {:tag :a :attrs {:class "p2-prev"} :content "forrige"})
+                        identity)
   [:td.p2-pagination] (if (and (> (->> results :hits :total) limit)
-                                      (< page (/ (->> results :hits :total) limit)))
-                               (html/append {:tag :a :attrs {:class "p2-next"} :content "neste"})
-                               identity)
+                               (< page (/ (->> results :hits :total) limit)))
+                        (html/append {:tag :a :attrs {:class "p2-next"} :content "neste"})
+                        identity)
   [:a.p2-pagenum] (let [max-pages (->> (/ (->> results :hits :total float) limit) Math/round int inc)
-                               upto (if (< max-pages 12) max-pages 7)
-                               pages (->> max-pages (range 1) (take upto) (into []))]
-                               (html/clone-for [p (if (> max-pages upto)
-                                                    (if (and (> page upto) (not= max-pages page))
-                                                      (conj pages "..." page "..." max-pages)
-                                                      (conj pages "..." max-pages))
-                                                    pages)]
-                                 (if (= p page)
-                                   (html/substitute {:tag :span :attrs {:id "p2-curpage"} :content (str p)})
-                                   (if (= "..." p)
-                                     (html/substitute {:tag :span :content "..."})
-                                     (html/content (str p))))))
+                        upto (if (< max-pages 12) max-pages 7)
+                        pages (->> max-pages (range 1) (take upto) (into []))]
+                    (html/clone-for [p (if (> max-pages upto)
+                                         (if (and (> page upto) (not= max-pages page))
+                                           (conj pages "..." page "..." max-pages)
+                                           (conj pages "..." max-pages))
+                                         pages)]
+                                    (if (= p page)
+                                      (html/substitute {:tag :span :attrs {:id "p2-curpage"} :content (str p)})
+                                      (if (= "..." p)
+                                        (html/substitute {:tag :span :content "..."})
+                                        (html/content (str p))))))
   [:tbody.p2-work]
   (html/clone-for [work (->> results :hits :hits)]
-    [:td.p2-author :strong] (html/content (or (->> work :_source :creator first :name) "(div)"))
-    [:td.p2-title :em] (html/content (->> work :_source :title))
-    [:span.p2-subjects :span] (html/clone-for [subject (->> work :_source :subject)]
-                                      (html/content subject))
-    [:tr.p2-edition]
-    (html/clone-for
-      [edition (#(if (config :p2-editions-reverse-sort-order)
-                   (reverse %1)
-                   (identity %1))
-                  (->> work :_source :edition (sort-by :year)))]
-      [:td.format :img] (html/clone-for [f (edition :format)]
-                                   (html/set-attr :src (get icon-mapping f "?")))
-      [:td.title] (html/content (edition :title))
-      [:td.year] (html/content (str (edition :year)))
-      [:td.lang] (html/content (clojure.string/join ", " (remove #(= "Norsk" %) (edition :language)))))
-    [:td.p2-show-all :a] (html/content (str "Vis alle " (->> work :_source :edition count) " utgavene"))
-    [:tr.p2-show-editions] (when (> (->> work :_source :edition count)
-                                    (config :p2-show-num-editions)) (html/add-class "visible")))
+                  [:td.p2-author :strong] (html/content (or (->> work :_source :creator first :name) "(div)"))
+                  [:td.p2-title :em] (html/content (->> work :_source :title))
+                  [:span.p2-subjects :span] (html/clone-for [subject (->> work :_source :subject)]
+                                                            (html/content subject))
+                  [:tr.p2-edition]
+                  (html/clone-for
+                    [edition (#(if (config :p2-editions-reverse-sort-order)
+                                 (reverse %1)
+                                 (identity %1))
+                                (->> work :_source :edition (sort-by :year)))]
+                    [:td.format :img] (html/clone-for [f (edition :format)]
+                                                      (html/set-attr :src (get icon-mapping f "?")))
+                    [:td.title] (html/content (edition :title))
+                    [:td.year] (html/content (str (edition :year)))
+                    [:td.lang] (html/content (clojure.string/join ", " (remove #(= "Norsk" %) (edition :language)))))
+                  [:td.p2-show-all :a] (html/content (str "Vis alle " (->> work :_source :edition count) " utgavene"))
+                  [:tr.p2-show-editions] (when (> (->> work :_source :edition count)
+                                                  (config :p2-show-num-editions)) (html/add-class "visible")))
   [[:tr.p2-edition (html/nth-child -1 4)]] (html/add-class "visible"))
 
 ;; queries
