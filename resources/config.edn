@@ -7,4 +7,8 @@
 
  :index-log "index.log"
  :app-log "app.log"
+
+ ;; p2 formatting options:
+ :p2-show-num-editions 3
+ :p2-editions-reverse-sort-order true
  }

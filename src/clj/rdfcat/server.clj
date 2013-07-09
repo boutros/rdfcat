@@ -9,6 +9,9 @@
             [clojurewerkz.elastisch.rest.document :as esd])
   (:gen-class))
 
+(defonce config
+  (read-string (slurp (clojure.java.io/resource "config.edn"))))
+
 (defn edn-response [data & [status]]
   {:status (or status 200)
    :headers {"Content-Type" "application/edn"}
@@ -47,7 +50,10 @@
                                       (html/content subject))
     [:tr.p2-edition]
     (html/clone-for
-      [edition (sort-by :year (->> work :_source :edition))]
+      [edition (#(if (config :p2-editions-reverse-sort-order)
+                   (reverse %1)
+                   (identity %1))
+                  (->> work :_source :edition (sort-by :year)))]
       [:td.format :img] (html/clone-for [f (edition :format)]
                                    (html/set-attr :src (get icon-mapping f "?")))
       [:td.title] (html/content (edition :title))
