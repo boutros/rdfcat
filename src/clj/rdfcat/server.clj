@@ -33,6 +33,7 @@
    "http://data.deichman.no/format/Videotape" "img/video.png"
    "http://data.deichman.no/format/Blu-ray_Disk" "img/video.png"
    "http://data.deichman.no/format/Sheet_music" "img/clef.png"
+   "http://data.deichman.no/format/Periodical_literature" "img/book.png"
    "http://data.deichman.no/format/Audiobook" "img/audiobook.png"})
 
 (defsnippet p2-results "p2-results.html" [:table.p2-results]
