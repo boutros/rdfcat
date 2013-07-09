@@ -49,9 +49,9 @@
                                (< page (/ (->> results :hits :total) limit)))
                         (html/append {:tag :a :attrs {:class "p2-next"} :content "neste"})
                         identity)
-  [:a.p2-pagenum] (let [max-pages (->> (/ (->> results :hits :total float) limit) Math/ceil int inc)
+  [:a.p2-pagenum] (let [max-pages (->> (/ (->> results :hits :total float) limit) Math/ceil int)
                         upto (if (< max-pages 12) max-pages 7)
-                        pages (->> max-pages (range 1) (take upto) (into []))]
+                        pages (->> (inc max-pages) (range 1) (take upto) (into []))]
                     (html/clone-for [p (if (> max-pages upto)
                                          (if (and (> page upto) (not= max-pages page))
                                            (conj pages "..." page "..." max-pages)
