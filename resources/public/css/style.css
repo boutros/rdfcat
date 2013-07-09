@@ -19,8 +19,15 @@ h1, h2 {
 }
 
 a, a:visited {
-  color:#2aaac8;
+  color:#2594AE;
   background: #f5f5f5;
+  text-decoration: none;
+  font-weight: normal;
+}
+
+a:hover {
+  cursor: pointer;
+  text-decoration: none;
 }
 
 .clearfix { clear: both;}
@@ -122,15 +129,19 @@ footer {
 .p2-results caption {text-align: left; font-size:1.1em; padding:1em 0;}
 .p2-results td {vertical-align: top; }
 tbody.p2-work { border-bottom: 1px solid #ccc;}
+tr.p2-edition { display: none;}
+tr.p2-show-editions { display:none;}
+tr.visible { display: inherit;}
 td.p2-title, td.p2-subjects { padding: 0.5em 0;}
-td.p2-edition { font-size: 0.88em;}
+td.p2-edition { font-size: 0.88em; text-align: left;}
 tr.p2-edition:hover { background:#eee; }
-td.format.p2-edition { width: 40px; }
-td.title.p2-edition { width:50%;}
+td.format.p2-edition { min-width: 40px; }
+td.title.p2-edition { width:65%;}
 td.p2-author { max-width:175px; padding-right:1em;}
 td.year.p2-edition { width: 50px; text-align: center;}
 td.lang.p2-edition { width: 100px;}
 td.expand.p2-edition { width: 30px; text-align: center;}
+td.p2-show-all { padding: 4px 44px;}
 span.p2-subjects { display: inline-block; width: 100%;}
 span.p2-subject { margin-right:1em; text-transform: uppercase; font-size:0.8em; display:inline-block;
                   letter-spacing:0.1em; background:#bbb; color:#fff; margin: 1px; padding:1px; font-weight: normal;}

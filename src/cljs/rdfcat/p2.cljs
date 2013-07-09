@@ -2,6 +2,7 @@
   (:require [clojure.browser.repl :as repl]
             [cljs.reader :as reader]
             [domina :as dom :refer [by-id by-class log]]
+            [domina.css :as css]
             [domina.events :as event]
             [goog.net.XhrIo :as xhr]))
 
@@ -13,10 +14,17 @@
             (pr-str data)
             (clj->js {"Content-Type" "application/edn"})))
 
+(defn show-editions [evt]
+  (let [t (event/target evt)
+        p (->> t .-parentElement .-parentElement .-parentElement)]
+    (dom/add-class! (css/sel p ".p2-edition") "visible")
+    (dom/destroy! (->> t .-parentElement .-parentElement))))
+
 (defn search-handler [event]
   (let [response (.-target event)
         result (.getResponseText response)]
-    (set! (.-innerHTML (by-id "search-results")) result)))
+    (set! (.-innerHTML (by-id "search-results")) result)
+    (event/listen! (by-class "p2-show-ed") :click show-editions)))
 
 (defn search-error-handler [{:keys [status status-text]}]
   (log (str "something bad happened: " status " " status-text)))
@@ -26,6 +34,7 @@
         what (dom/value (by-id "search-what"))]
     (when-not (every? empty? [who what])
       (ajax-call "/search/p2" search-handler "POST" {:who who :what what}))))
+
 
 (defn ^:export init []
   (log "Hallo der, mister Åsen.")

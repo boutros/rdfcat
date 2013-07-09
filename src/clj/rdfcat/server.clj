@@ -58,7 +58,11 @@
                                    (html/set-attr :src (get icon-mapping f "?")))
       [:td.title] (html/content (edition :title))
       [:td.year] (html/content (str (edition :year)))
-      [:td.lang] (html/content (clojure.string/join ", " (remove #(= "Norsk" %) (edition :language)))))))
+      [:td.lang] (html/content (clojure.string/join ", " (remove #(= "Norsk" %) (edition :language)))))
+    [:td.p2-show-all :a] (html/content (str "Vis alle " (->> work :_source :edition count) " utgavene"))
+    [:tr.p2-show-editions] (when (> (->> work :_source :edition count)
+                                    (config :p2-show-num-editions)) (html/add-class "visible")))
+  [[:tr.p2-edition (html/nth-child -1 4)]] (html/add-class "visible"))
 
 ;; queries
 
