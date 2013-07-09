@@ -7,7 +7,11 @@
                  [clj-http "0.7.3"]
                  [clojurewerkz/elastisch "1.2.0-beta1"]
                  [matsu "0.1.3-SNAPSHOT"]
-                 [com.taoensso/timbre "2.1.2"]]
+                 [com.taoensso/timbre "2.1.2"]
+                 [domina "1.0.2-SNAPSHOT"]
+                 [fogus/ring-edn "0.2.0-SNAPSHOT"]
+                 ;[cljs-ajax "0.1.4"]
+                 ]
   :plugins [[lein-cljsbuild "0.3.0"]
             [lein-ring "0.8.3"]]
   ;:hooks [leiningen.cljsbuild]
@@ -17,9 +21,9 @@
                        :main {
                               :source-paths ["src/cljs"]
                               :compiler {:output-to "resources/public/js/cljs.js"
-                                         :optimizations :simple
+                                         :optimizations :whitespace
                                          :pretty-print true}
                               :jar true}}}
-  :main rdfcat.index
+  :main rdfcat.server
   :ring {:handler rdfcat.server/app}
   :profiles {:dev {:dependencies [[ring-mock "0.1.5"]]}})

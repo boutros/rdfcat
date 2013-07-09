@@ -49,7 +49,7 @@ nav a, a:visited {
   text-decoration: none;
   display: inline-block;
   width: 200px;
-  text-align: center; 
+  text-align: center;
 }
 
 nav .selected {
@@ -88,7 +88,9 @@ footer {
 
 /* search */
 
-.search-body { margin-top: 1em;}
+.search-body {
+  margin: 1em 0 2em 0;
+}
 
 .big-search {
   width: 90%;
@@ -111,3 +113,25 @@ footer {
   font-weight: bold;
   line-height:2em;
 }
+
+
+
+/* p2 prototype "Petter" */
+
+.p2-results { width: 100%; margin-top:2em; font-size:0.9em; }
+.p2-results caption {text-align: left; font-size:1.1em; padding:1em 0;}
+.p2-results td {vertical-align: top; }
+tbody.p2-work { border-bottom: 1px solid #ccc;}
+td.p2-title, td.p2-subjects { padding: 0.5em 0;}
+td.p2-edition { font-size: 0.88em;}
+tr.p2-edition:hover { background:#eee; }
+td.format.p2-edition { width: 20px; }
+td.title.p2-edition { width:50%;}
+td.p2-author { max-width:175px; padding-right:1em;}
+td.year.p2-edition { width: 50px; text-align: center;}
+td.lang.p2-edition { width: 100px;}
+td.expand.p2-edition { width: 30px; text-align: center;}
+span.p2-subjects { display: inline-block; width: 100%;}
+span.p2-subject { margin-right:1em; text-transform: uppercase; font-size:0.8em; display:inline-block;
+                  letter-spacing:0.1em; background:#bbb; color:#fff; margin: 1px; padding:1px; font-weight: normal;}
+span.triangle:hover { cursor: pointer;}

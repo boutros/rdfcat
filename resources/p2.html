@@ -11,7 +11,7 @@
   <![endif]-->
 </head>
 <body>
-  <div class="main m-grid m-grid--divide-3">
+  <div class="main m-grid m-grid--divide-4">
     <nav class="grid_field-unit">
         <p>
           <span class="navitem">RDFcat v 02.07.2013</span>
@@ -25,25 +25,27 @@
       <h2>Søk i Deichmanske biblioteks katalog</h2>
     </div>
 
-    <div class="search-body grid_unit m-grid_unit--span-2">
+    <div class="search-body grid_unit m-grid_unit--span-3">
       <div class="m-grid m-grid--divide-2">
         <div class="left grid_unit">
-          <label class="search-label">HVEM<input class="medium-search" type="text" placeholder="Forfatter/regissør/artist etc."/></label>
+          <label class="search-label">HVEM<input id="search-who" class="medium-search" type="text" placeholder="Forfatter/regissør/artist etc."/></label>
         </div>
         <div class="left grid_unit">
-          <label class="search-label">HVA<input class="medium-search" type="text" placeholder="Tittel/emne"/></label>
+          <label class="search-label">HVA<input id="search-what" class="medium-search" type="text" placeholder="Tittel/emne"/></label>
         </div>
       </div>
       <div class="clearfix"></div>
+      <div id="search-results"></div>
       <p id="clickable">Hei, sveis</p>
       <a href="nei">nei?</a>
     </div>
- 
+
     <div class="search-filters grid_unit">
       <p>filtere herz</p>
     </div>
 
   </div>
-  <script src="js/cljs.js"></script>
+  <script src="../js/cljs.js"></script>
+  <script>rdfcat.p2.init();</script>
 </body>
 </html>
