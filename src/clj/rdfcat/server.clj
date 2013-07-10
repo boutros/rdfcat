@@ -88,7 +88,7 @@
                   [:td.p2-show-all :a] (html/content (str "Vis alle " (->> work :_source :edition count) " utgavene"))
                   [:tr.p2-show-editions] (when (> (->> work :_source :edition count)
                                                   (config :p2-show-num-editions)) (html/add-class "visible")))
-  [[:tr.p2-edition (html/nth-child -1 (inc (config :p2-show-num-editions)))]] (html/add-class "visible")
+  [[:tr.p2-edition (html/nth-child -1 (+ 2 (config :p2-show-num-editions)))]] (html/add-class "visible")
   [:div.p2-format] (html/clone-for [f (->> results :facets :formats :terms)]
                                    [:label]
                                    (html/content
