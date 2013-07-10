@@ -6,7 +6,8 @@
             [ring.middleware.edn :refer [wrap-edn-params]]
             [net.cgrand.enlive-html :as html :refer [deftemplate defsnippet]]
             [clojurewerkz.elastisch.rest :as esr]
-            [clojurewerkz.elastisch.rest.document :as esd])
+            [clojurewerkz.elastisch.rest.document :as esd]
+            [rdfcat.util.string :refer [length-num]])
   (:gen-class))
 
 (defonce config
@@ -61,8 +62,18 @@
                   [:tr.p2-subjects] (if (config :p2-show-subjects)
                                       (html/remove-class "hidden")
                                       identity)
-                  [:td.p2-subjects :span] (html/clone-for [subject (->> work :_source :subject)]
-                                                            (html/content subject))
+                  [:td.p2-subjects :span] (let [all-subjects (->> work :_source :subject)
+                                                n (length-num all-subjects 50)
+                                                visible-subjects (take n all-subjects)]
+                                            (html/clone-for [subject visible-subjects]
+                                                            (html/content subject)))
+                  [:a.p2-show-sub] (let [all-subjects (->> work :_source :subject)
+                                         n (length-num all-subjects 50)
+                                         rest-subjects (drop n all-subjects)]
+                                     (if (empty? rest-subjects)
+                                       (html/add-class "hidden")
+                                       (html/after {:tag :div :attrs {:class "p2-rest-subjects hidden"}
+                                                    :content (map #(assoc {:tag :span :attrs {:class "p2-subject"}} :content %) rest-subjects)})))
                   [:tr.p2-edition]
                   (html/clone-for
                     [edition (#(if (config :p2-editions-reverse-sort-order)

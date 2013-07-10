@@ -20,6 +20,13 @@
     (dom/add-class! (css/sel p ".p2-edition") "visible")
     (dom/destroy! (->> t .-parentElement .-parentElement))))
 
+(defn show-subjects [evt]
+  (let [t (event/target evt)
+        p (->> t .-parentElement)]
+    (log "viser emner")
+    (dom/remove-class! (css/sel p ".p2-rest-subjects") "hidden")
+    (dom/destroy! t)))
+
 (declare search)
 
 (defn search-handler [event]
@@ -41,7 +48,8 @@
                    :click
                    (fn [evt]
                      (let [p (->> (by-id "p2-curpage") (dom/text) int dec)]
-                       (search evt p))))))
+                       (search evt p))))
+    (event/listen! (by-class "p2-show-sub") :click show-subjects)))
 
 (defn search-error-handler [{:keys [status status-text]}]
   (log (str "something bad happened: " status " " status-text)))
