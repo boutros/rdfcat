@@ -78,7 +78,7 @@
               "index": "analyzed"
             },
             "year": {
-              "type": "integer"
+              "type": "short"
             },
             "format": {
               "type": "string",
