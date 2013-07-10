@@ -34,6 +34,8 @@ a:hover {
 
 .left { float: left;}
 
+.hidden { display: none;}
+
 
 /* header */
 
@@ -144,15 +146,15 @@ td.p2-edition { font-size: 0.88em; text-align: left;}
 tr.p2-edition:hover { background:#eee; }
 td.format.p2-edition { min-width: 40px; }
 td.title.p2-edition { width:65%;}
-td.p2-author { max-width:175px; padding-right:1em;}
+td.p2-author { width:175px; padding-right:1em;}
 td.year.p2-edition { width: 50px; text-align: center;}
 td.lang.p2-edition { width: 140px;}
 td.expand.p2-edition { width: 30px; text-align: center;}
 td.p2-show-all { padding: 4px 44px;}
 td.p2-pagination { text-align: right;}
-span.p2-subjects { display: inline-block; width: 100%;}
+tr.p2-subjects { overflow: hidden; }
 span.p2-subject { margin-right:1em; text-transform: uppercase; font-size:0.8em; display:inline-block;
-                  letter-spacing:0.1em; background:#bbb; color:#fff; margin: 1px; padding:1px; font-weight: normal;}
+                  letter-spacing:0.1em; background:#bbb; color:#fff; margin: 2px; padding:1px; font-weight: normal;}
 span.triangle:hover { cursor: pointer;}
 img.p2-icon { float:left;}
 a.p2-pagenum { margin: 0 0.2em;}

@@ -58,7 +58,10 @@
   (html/clone-for [work (->> results :hits :hits)]
                   [:td.p2-author :strong] (html/content (or (->> work :_source :creator first :name) "(div)"))
                   [:td.p2-title :em] (html/content (->> work :_source :title))
-                  [:span.p2-subjects :span] (html/clone-for [subject (->> work :_source :subject)]
+                  [:tr.p2-subjects] (if (config :p2-show-subjects)
+                                      (html/remove-class "hidden")
+                                      identity)
+                  [:td.p2-subjects :span] (html/clone-for [subject (->> work :_source :subject)]
                                                             (html/content subject))
                   [:tr.p2-edition]
                   (html/clone-for

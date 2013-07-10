@@ -12,4 +12,5 @@
  :p2-results-per-page 10
  :p2-show-num-editions 3
  :p2-editions-reverse-sort-order true
+ :p2-show-subjects true
  }
