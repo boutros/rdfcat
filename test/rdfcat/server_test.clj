@@ -5,7 +5,7 @@
 
 (deftest test-app
   (testing "main route"
-    (let [response (app (request :get "/"))]
+    (let [response (app (request :get "/p2"))]
       (is (= (:status response) 200))
       (is (= (get (:headers response ) "Content-Type") "text/html; charset=utf-8"))))
 
