@@ -9,6 +9,7 @@
  "http://data.deichman.no/format/Sheet_music"           {:image "img/clef.png" :label "Noter"}
  "http://data.deichman.no/format/Periodical_literature" {:image "img/book.png" :label "Periodika"}
  "http://data.deichman.no/format/Audiobook"             {:image "img/audiobook.png" :label "Lydbok"}
- ""http://data.deichman.no/format/Digi_card""           {:label "Digi-kort"}
+ "http://data.deichman.no/format/Digi_card"             {:label "Digi-kort"}
+ "http://data.deichman.no/format/CD_ROM"                {:label "CD-ROM"}
 }
 
