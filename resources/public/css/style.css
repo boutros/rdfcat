@@ -157,3 +157,4 @@ span.triangle:hover { cursor: pointer;}
 img.p2-icon { float:left;}
 a.p2-pagenum { margin: 0 0.2em;}
 span#p2-curpage { margin: 0 0.2em; font-weight: bold; color:#000;}
+label.p2-facet { margin-left:0.2em;}

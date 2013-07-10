@@ -74,8 +74,23 @@
                   [:td.p2-show-all :a] (html/content (str "Vis alle " (->> work :_source :edition count) " utgavene"))
                   [:tr.p2-show-editions] (when (> (->> work :_source :edition count)
                                                   (config :p2-show-num-editions)) (html/add-class "visible")))
-  [[:tr.p2-edition (html/nth-child -1 (inc (config :p2-show-num-editions)))]]
-  (html/add-class "visible"))
+  [[:tr.p2-edition (html/nth-child -1 (inc (config :p2-show-num-editions)))]] (html/add-class "visible")
+  [:div.p2-format] (html/clone-for [f (->> results :facets :formats :terms)]
+                                   [:label]
+                                   (html/content
+                                     (str (get-in formats [(f :term) :label] "XXX") " (" (f :count) ")")))
+  [:div.p2-lang] (html/clone-for [l (->> results :facets :languages :terms)]
+                                 [:label]
+                                 (html/content
+                                   (str (l :term) " (" (l :count) ")")))
+  [:#p2-filter-year-from] (html/set-attr :value (let [n (->> results :facets :years :min)]
+                                                  (if (number? n)
+                                                    (->> n int str)
+                                                    "~")))
+  [:#p2-filter-year-to] (html/set-attr :value (let [n (->> results :facets :years :max)]
+                                                (if (number? n)
+                                                  (->> n int str)
+                                                  "~"))))
 
 ;; queries
 
@@ -98,7 +113,10 @@
                 (every? string? [hvem hva]) (who-and-what hvem hva)
                 (string? hvem) (only-who hvem)
                 (string? hva) (only-what hva))]
-    (esd/search "rdfcat" "work" :from offset :size limit :query {:bool query})))
+    (esd/search "rdfcat" "work" :from offset :size limit :query {:bool query}
+                :facets {:formats {:terms {:field "edition.format"}}
+                         :languages {:terms {:field "edition.language"}}
+                         :years {:statistical {:field "edition.year"}}})))
 
 (defroutes app-routes
   (GET "/" [] (redirect "p2"))
