@@ -13,5 +13,8 @@
  "http://data.deichman.no/format/CD_ROM"                {:label "CD-ROM"}
  "http://data.deichman.no/format/tf"                    {:label "For døve?"}
  "http://data.deichman.no/format/Map"                   {:label "Kart"}
+ "http://data.deichman.no/format/MP3"                   {:label "MP3"}
+ "http://data.deichman.no/format/Language_course"       {:label "Språkkurs"}
+ "http://data.deichman.no/format/Web_page"              {:label "Nettside"}
 }
 
