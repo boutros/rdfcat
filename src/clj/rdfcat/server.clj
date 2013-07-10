@@ -92,11 +92,12 @@
   [:div.p2-format] (html/clone-for [f (->> results :facets :formats :terms)]
                                    [:label]
                                    (html/content
-                                     (str (get-in formats [(f :term) :label] "XXX") " (" (f :count) ")")))
+                                     (str (get-in formats [(f :term) :label] "XXX") " (" (f :count) ")"))
+                                   [:input] (html/set-attr :value (f :term)))
   [:div.p2-lang] (html/clone-for [l (->> results :facets :languages :terms)]
-                                 [:label]
-                                 (html/content
-                                   (str (l :term) " (" (l :count) ")")))
+                                 [:label] (html/content
+                                            (str (l :term) " (" (l :count) ")"))
+                                 [:input] (html/set-attr :value (l :term)))
   [:#p2-filter-year-from] (html/set-attr :value (let [n (->> results :facets :years :min)]
                                                   (if (number? n)
                                                     (->> n int str)
