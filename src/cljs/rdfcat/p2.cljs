@@ -25,7 +25,7 @@
 (defn search-handler [event]
   (let [response (.-target event)
         result (.getResponseText response)]
-    (set! (.-innerHTML (by-id "search-results")) result)
+    (dom/swap-content! (by-id "search-results") result)
     (event/listen! (by-class "p2-show-ed") :click show-editions)
     (event/listen! (by-class "p2-pagenum")
                    :click

@@ -1,0 +1,13 @@
+{
+ "http://data.deichman.no/format/Book"                  {:image "img/book.png" :label "Bok"}
+ "http://data.deichman.no/format/Music"                 {:image "img/music.png" :label "Musikk"}
+ "http://data.deichman.no/format/Compact_Disc"          {:image "img/CD.png" :label "CD"}
+ "http://data.deichman.no/format/Compact_Cassette"      {:image "img/cassette.png" :label "Kassett"}
+ "http://data.deichman.no/format/DVD"                   {:image "img/video.png" :label "DVD"}
+ "http://data.deichman.no/format/Videotape"             {:image "img/video.png" :label "VHS"}
+ "http://data.deichman.no/format/Blu-ray_Disk"          {:image "img/video.png" :label "Blu-Ray"}
+ "http://data.deichman.no/format/Sheet_music"           {:image "img/clef.png" :label "Noter"}
+ "http://data.deichman.no/format/Periodical_literature" {:image "img/book.png" :label "Periodika"}
+ "http://data.deichman.no/format/Audiobook"             {:image "img/audiobook.png" :label "Lydbok"}
+}
+

@@ -96,7 +96,7 @@ footer {
 /* search */
 
 .search-body {
-  margin: 1em 0 2em 0;
+  margin: 1em 0 0 0;
 }
 
 .big-search {
@@ -121,7 +121,14 @@ footer {
   line-height:2em;
 }
 
+/* Filter/facets */
 
+.input-number { width: 50px; }
+
+.search-filters {
+  margin-top: 70px;
+  font-size:0.9em;
+}
 
 /* p2 prototype "Petter" */
 

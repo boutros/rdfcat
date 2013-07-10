@@ -1,31 +1,61 @@
-<table class="p2-results">
-  <caption></caption>
-  <thead>
-    <tr><td colspan="7"class="p2-pagination">
-      <a class="p2-pagenum">1</a>
-    </td></tr>
-  </thead>
-  <tbody class="p2-work">
-    <tr class="p2-heading">
-      <td class="p2-author" colspan="2" rowspan="100"><strong>Knut Hamsun</strong><br/>
-        <span class="p2-subjects"><span class="p2-subject">1800-tallet</span></span>
-      </td>
-      <td class="p2-title" colspan="5"><em>På gjengrodde stier</em></td>
-    </tr>
-    <tr class="p2-edition">
-      <td class="p2-edition format"><img class="p2-icon" src="img/book.png"></td>
-      <td class="p2-edition title">På gjengrodde stier</td>
-      <td class="p2-edition year">1952</td>
-      <td class="p2-edition lang">Norsk bokmål</td>
-      <td class="p2-edition expand"><span class="triangle down">&#9660;</span></td>
-    </tr>
-    <tr class="p2-show-editions">
-      <td class="p2-edition p2-show-all" colspan="5"><a class="p2-show-ed">vis alle utgaver</a></td>
-    </tr>
-  </tbody>
-  <tfoot>
-    <tr><td colspan="7"class="p2-pagination">
-      <a class="p2-pagenum">1</a>
-    </td></tr>
-  </tfoot
-</table>
+<div id="search-results" class="m-grid m-grid--divide-4 search-body">
+  <div class="grid_unit m-grid_unit--span-3">
+    <table class="p2-results">
+      <caption></caption>
+      <thead>
+        <tr><td colspan="7"class="p2-pagination">
+          <a class="p2-pagenum">1</a>
+        </td></tr>
+      </thead>
+      <tbody class="p2-work">
+        <tr class="p2-heading">
+          <td class="p2-author" colspan="2" rowspan="100"><strong>Knut Hamsun</strong><br/>
+            <span class="p2-subjects"><span class="p2-subject">1800-tallet</span></span>
+          </td>
+          <td class="p2-title" colspan="5"><em>På gjengrodde stier</em></td>
+        </tr>
+        <tr class="p2-edition">
+          <td class="p2-edition format"><img class="p2-icon" src="img/book.png"></td>
+          <td class="p2-edition title">På gjengrodde stier</td>
+          <td class="p2-edition year">1952</td>
+          <td class="p2-edition lang">Norsk bokmål</td>
+          <td class="p2-edition expand"><span class="triangle down">&#9660;</span></td>
+        </tr>
+        <tr class="p2-show-editions">
+          <td class="p2-edition p2-show-all" colspan="5"><a class="p2-show-ed">vis alle utgaver</a></td>
+        </tr>
+      </tbody>
+      <tfoot>
+        <tr><td colspan="7"class="p2-pagination">
+          <a class="p2-pagenum">1</a>
+        </td></tr>
+      </tfoot>
+    </table>
+  </div>
+
+  <div class="search-filters grid_unit">
+    <h3>Avgrens søket</h3>
+    <p><br></p>
+    <p><strong>Utgivelsesår</strong></p>
+    <label>fra <input type="text" class="input-number" id="p2-filter-year-from" value="1750"></label>
+    <label>til <input type="text" class="input-number" id="p2-filter-year-to" value="2013"></label>
+    <p><br></p>
+    <p><strong>Språk</strong></p>
+    <p>
+      <input type="checkbox" checked="checked"> <label>Norsk</label><br>
+      <input type="checkbox" checked="checked"> <label>Norsk bokmål</label><br>
+      <input type="checkbox" checked="checked"> <label>Norsk Nynorsk</label><br>
+      <input type="checkbox" checked="checked"> <label>Engelsk</label><br>
+      <input type="checkbox" checked="checked"> <label>Tysk</label><br>
+    </p>
+    <p><br></p>
+    <p><strong>Format</strong></p>
+    <p>
+      <input type="checkbox" checked="checked"> <label>Bok</label><br>
+      <input type="checkbox" checked="checked"> <label>Lydbok</label><br>
+      <input type="checkbox" checked="checked"> <label>CD (musikk)</label><br>
+      <input type="checkbox" checked="checked"> <label>DVD (film)</label><br>
+      <input type="checkbox" checked="checked"> <label>Noter</label><br>
+    </p>
+  </div>
+</div>
