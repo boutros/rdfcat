@@ -11,5 +11,7 @@
  "http://data.deichman.no/format/Audiobook"             {:image "img/audiobook.png" :label "Lydbok"}
  "http://data.deichman.no/format/Digi_card"             {:label "Digi-kort"}
  "http://data.deichman.no/format/CD_ROM"                {:label "CD-ROM"}
+ "http://data.deichman.no/format/tf"                    {:label "For døve?"}
+ "http://data.deichman.no/format/Map"                   {:label "Kart"}
 }
 
