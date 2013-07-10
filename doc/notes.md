@@ -111,6 +111,20 @@ WHERE {
   ?something dc:format ?format
 }
 
+feil dc:issued
+-------------
+Disse slutter på s|s., antageligvis sidetall i feil felt:
+
+PREFIX bibo:<http://purl.org/ontology/bibo/>
+PREFIX dc: <http://purl.org/dc/terms/>
+
+SELECT ?book ?issued
+FROM <http://data.deichman.no/books>
+WHERE {
+  ?book dc:issued ?issued
+  FILTER (regex(?issued, 's\\.?$'))
+} LIMIT 1000
+
 
 
 GUI
