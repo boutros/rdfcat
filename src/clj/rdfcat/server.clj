@@ -187,10 +187,6 @@
   (POST "/search/p2filter" [who what page filters]
         (let [limit (config :p2-results-per-page)
               offset (* (dec page) limit)]
-          (println who)
-          (println what)
-          (println page)
-          (println filters)
           (html-response
             (html/emit*
               (p2-results
