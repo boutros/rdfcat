@@ -6,6 +6,8 @@
             [domina.events :as event]
             [goog.net.XhrIo :as xhr]))
 
+;(repl/connect "http://localhost:9000/repl")
+
 (defn ajax-call
   [path callback method data]
   (xhr/send path
@@ -27,7 +29,7 @@
     (dom/remove-class! (css/sel p ".p2-rest-subjects") "hidden")
     (dom/destroy! t)))
 
-(declare search)
+(declare search filter-search)
 
 (defn search-handler [event]
   (let [response (.-target event)
@@ -38,18 +40,19 @@
                    :click
                    (fn [evt]
                      (let [p (->> (event/target evt) (dom/text) int)]
-                       (search evt p))))
+                       (filter-search evt p))))
     (event/listen! (by-class "p2-next")
                    :click
                    (fn [evt]
                      (let [p (->> (by-id "p2-curpage") (dom/text) int inc)]
-                       (search evt p))))
+                       (filter-search evt p))))
     (event/listen! (by-class "p2-prev")
                    :click
                    (fn [evt]
                      (let [p (->> (by-id "p2-curpage") (dom/text) int dec)]
-                       (search evt p))))
-    (event/listen! (by-class "p2-show-sub") :click show-subjects)))
+                       (filter-search evt p))))
+    (event/listen! (by-class "p2-show-sub") :click show-subjects)
+    (event/listen! (by-class "p2-facet") :click filter-search)))
 
 (defn search-error-handler [{:keys [status status-text]}]
   (log (str "something bad happened: " status " " status-text)))
@@ -60,6 +63,18 @@
     (when-not (every? empty? [who what])
       (ajax-call "/search/p2" search-handler "POST" {:who who :what what :page page}))))
 
+(defn filter-search
+  ([evt] (filter-search evt 1))
+  ([evt page]
+   (let [filter-lang (map #(dom/attr % :data-original) (dom/nodes (css/sel ".p2-facet.lang:checked")))
+         filter-format (map #(dom/attr % :data-original) (dom/nodes (css/sel ".p2-facet.format:checked")))
+         year-from (dom/value (by-id "p2-filter-year-from"))
+         year-to (dom/value (by-id "p2-filter-year-to"))
+         who (dom/value (by-id "search-who"))
+         what (dom/value (by-id "search-what"))]
+     (ajax-call "/search/p2filter" search-handler "POST"
+                {:who who :what what :page page
+                 :filters {:lang (vec filter-lang) :format (vec filter-format)}}))))
 
 (defn ^:export init []
   (log "Hallo der, mister Åsen.")

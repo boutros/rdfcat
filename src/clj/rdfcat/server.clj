@@ -33,7 +33,7 @@
 
 
 (defsnippet p2-results "p2-results.html" [:div#search-results]
-  [results page limit]
+  [results page limit filters]
   [:caption] (html/content (str (->> results :hits :total) " treff (" (->> results :took) "ms)"))
   [:td.p2-pagination] (if (> page 1)
                         (html/prepend {:tag :a :attrs {:class "p2-prev"} :content "forrige"})
@@ -93,11 +93,19 @@
                                    [:label]
                                    (html/content
                                      (str (get-in formats [(f :term) :label] "XXX") " (" (f :count) ")"))
-                                   [:input] (html/set-attr :value (f :term)))
+                                   [:input] (html/do->
+                                              (html/set-attr :data-original (f :term))
+                                              (if (or (false? filters) (some #{(f :term)} (filters :format)))
+                                                identity
+                                                (html/remove-attr :checked))))
   [:div.p2-lang] (html/clone-for [l (->> results :facets :languages :terms)]
                                  [:label] (html/content
                                             (str (l :term) " (" (l :count) ")"))
-                                 [:input] (html/set-attr :value (l :term)))
+                                 [:input] (html/do->
+                                              (html/set-attr :data-original (l :term))
+                                              (if (or (false? filters) (some #{(l :term)} (filters :lang)))
+                                                identity
+                                                (html/remove-attr :checked))))
   [:#p2-filter-year-from] (html/set-attr :value (let [n (->> results :facets :years :min)]
                                                   (if (number? n)
                                                     (->> n int str)
@@ -133,6 +141,23 @@
                          :languages {:terms {:field "edition.language"}}
                          :years {:statistical {:field "edition.year"}}})))
 
+(defn p2-search-filtered [who what offset limit filters]
+  (let [hvem (if (empty? who) nil who)
+        hva (if (empty? what) nil what)
+        query (cond
+                (every? string? [hvem hva]) (who-and-what hvem hva)
+                (string? hvem) (only-who hvem)
+                (string? hva) (only-what hva))]
+    (esd/search "rdfcat" "work" :from offset :size limit :query {:bool query}
+                :facets {:formats {:terms {:field "edition.format"}}
+                         :languages {:terms {:field "edition.language"}}
+                         :years {:statistical {:field "edition.year"}}}
+                :filter {:and {:filters
+                         [{:terms {:format (remove nil? (filters :format)) :execution "bool"}}
+                          {:terms {:language (remove nil? (filters :lang)) :execution "bool"}}]
+                         }}
+                )))
+
 (defroutes app-routes
   (GET "/" [] (redirect "p2"))
   (GET "/p1" [] (anne-lena))
@@ -146,7 +171,22 @@
               (p2-results
                 (p2-search who what offset limit)
                 page
-                limit)))))
+                limit
+                false)))))
+  (POST "/search/p2filter" [who what page filters]
+        (let [limit (config :p2-results-per-page)
+              offset (* (dec page) limit)]
+          (println who)
+          (println what)
+          (println page)
+          (println filters)
+          (html-response
+            (html/emit*
+              (p2-results
+                (p2-search-filtered who what offset limit filters)
+                page
+                limit
+                filters)))))
   (route/resources "/")
   (route/not-found "Not Found."))
 
