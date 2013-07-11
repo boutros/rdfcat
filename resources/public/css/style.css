@@ -163,3 +163,5 @@ a.p2-show-sub { margin-left:0.5em; font-size:0.88em;}
 span#p2-curpage { margin: 0 0.2em; font-weight: bold; color:#000;}
 .p2-select-lang, .p2-select-format { margin-left:0.2em;}
 .p2-select-lang:hover, .p2-select-format:hover { text-decoration: underline; color:#2594AE; cursor: pointer;}
+.p2-select-lang-missing  { margin-left:0.2em; font-style: italic;}
+.year-missing  { margin: 1em 0.3em; font-style: italic;}

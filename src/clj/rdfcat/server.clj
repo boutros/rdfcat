@@ -162,9 +162,12 @@
                            :years {:statistical {:field "edition.year"}}}
                   :filter {:and {:filters
                                  [{:terms {:format (remove nil? (filters :format)) :execution "bool"}}
-                                  {:terms {:language (remove nil? (filters :lang)) :execution "bool"}}
-                                  {:range {:year {:from (filters :year-from) :to (filters :year-to)
-                                                  :include_lower true :include_upper true}}}]}}))))
+                                  {:or {:filters [{:terms {:language (remove nil? (filters :lang)) :execution "bool"}}
+                                   {:missing {:field "language" :existence true :null_value true}}]}}
+                                  {:or {:filters [{:range {:year {:from (filters :year-from) :to (filters :year-to)
+                                                  :include_lower true :include_upper true}}}
+                                                  {:missing {:field "year" :existence true :null_value true}}]}}
+                                  ]}}))))
 
 (defroutes app-routes
   (GET "/" [] (redirect "p2"))
