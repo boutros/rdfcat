@@ -24,6 +24,9 @@ work.editions [ { id, title, format, language, pubyear, creators }, { ... } ]
 work.editions.creators [ { id, name, role } { ... } ]
 work.subjects [ { id, label } ]
 
+kanskje:
+work.edition.description (dc:description 520-note)
+work.edition.contents (dc:hasPart, brukes b.la. om sanger på CDer)
 
 slå sammen til creators:
 # dc.creator
