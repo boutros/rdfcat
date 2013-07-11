@@ -106,14 +106,20 @@
                                               (if (or (false? filters) (some #{(l :term)} (filters :lang)))
                                                 identity
                                                 (html/remove-attr :checked))))
-  [:#p2-filter-year-from] (html/set-attr :value (let [n (->> results :facets :years :min)]
+  [:#p2-filter-year-from] (html/set-attr :value (let [n (->> results :facets :years :min)
+                                                      year-from (get filters :year-from false)]
+                                                  (if year-from
+                                                    year-from
+                                                    (if (number? n)
+                                                      (->> n int str)
+                                                      "~"))))
+  [:#p2-filter-year-to] (html/set-attr :value (let [n (->> results :facets :years :max)
+                                                    year-to (get filters :year-to false)]
+                                                (if year-to
+                                                  year-to
                                                   (if (number? n)
                                                     (->> n int str)
-                                                    "~")))
-  [:#p2-filter-year-to] (html/set-attr :value (let [n (->> results :facets :years :max)]
-                                                (if (number? n)
-                                                  (->> n int str)
-                                                  "~"))))
+                                                    "~")))))
 
 ;; queries
 
@@ -137,8 +143,8 @@
                 (string? hvem) (only-who hvem)
                 (string? hva) (only-what hva))]
     (esd/search "rdfcat" "work" :from offset :size limit :query {:bool query}
-                :facets {:formats {:terms {:field "edition.format" :size (config :p2-num-facets)}}
-                         :languages {:terms {:field "edition.language" :size (config :p2-num-facets)}}
+                :facets {:formats {:terms {:field "edition.format" :size 30}}
+                         :languages {:terms {:field "edition.language" :size 30}}
                          :years {:statistical {:field "edition.year"}}})))
 
 (defn p2-search-filtered [who what offset limit filters]
@@ -149,12 +155,14 @@
                 (string? hvem) (only-who hvem)
                 (string? hva) (only-what hva))]
     (esd/search "rdfcat" "work" :from offset :size limit :query {:bool query}
-                :facets {:formats {:terms {:field "edition.format" :size (config :p2-num-facets)}}
-                         :languages {:terms {:field "edition.language" :size (config :p2-num-facets)}}
+                :facets {:formats {:terms {:field "edition.format" :size 30}}
+                         :languages {:terms {:field "edition.language" :size 30}}
                          :years {:statistical {:field "edition.year"}}}
                 :filter {:and {:filters
                          [{:terms {:format (remove nil? (filters :format)) :execution "bool"}}
-                          {:terms {:language (remove nil? (filters :lang)) :execution "bool"}}]
+                          {:terms {:language (remove nil? (filters :lang)) :execution "bool"}}
+                          {:range {:year {:from (filters :year-from) :to (filters :year-to)
+                                          :include_lower true :include_upper true}}}]
                          }}
                 )))
 

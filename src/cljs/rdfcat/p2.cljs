@@ -52,7 +52,11 @@
                      (let [p (->> (by-id "p2-curpage") (dom/text) int dec)]
                        (filter-search evt p))))
     (event/listen! (by-class "p2-show-sub") :click show-subjects)
-    (event/listen! (by-class "p2-facet") :click filter-search)))
+    (event/listen! (by-class "p2-facet") :click filter-search)
+    (event/listen! (by-class "input-number") :keyup
+                   (fn [evt] (let [year-from (dom/value (by-id "p2-filter-year-from"))
+                                   year-to (dom/value (by-id "p2-filter-year-to"))]
+                               (when (every? #(= 4 (count %)) [year-from year-to]) (filter-search evt)))))))
 
 (defn search-error-handler [{:keys [status status-text]}]
   (log (str "something bad happened: " status " " status-text)))
@@ -74,7 +78,8 @@
          what (dom/value (by-id "search-what"))]
      (ajax-call "/search/p2filter" search-handler "POST"
                 {:who who :what what :page page
-                 :filters {:lang (vec filter-lang) :format (vec filter-format)}}))))
+                 :filters {:lang (vec filter-lang) :format (vec filter-format)
+                           :year-from year-from :year-to year-to}}))))
 
 (defn ^:export init []
   (log "Hallo der, mister Åsen.")
