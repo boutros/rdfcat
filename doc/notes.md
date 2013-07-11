@@ -125,7 +125,17 @@ WHERE {
   FILTER (regex(?issued, 's\\.?$'))
 } LIMIT 1000
 
+Issued som begynner på bokstaven 'L' istedenfor tallet 1
 
+PREFIX bibo:<http://purl.org/ontology/bibo/>
+PREFIX dc: <http://purl.org/dc/terms/>
+
+SELECT ?book ?issued
+FROM <http://data.deichman.no/books>
+WHERE {
+  ?book dc:issued ?issued
+  FILTER (regex(?issued, '^l'))
+} LIMIT 1000
 
 GUI
 =================
