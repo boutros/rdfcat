@@ -56,7 +56,22 @@
     (event/listen! (by-class "input-number") :keyup
                    (fn [evt] (let [year-from (dom/value (by-id "p2-filter-year-from"))
                                    year-to (dom/value (by-id "p2-filter-year-to"))]
-                               (when (every? #(= 4 (count %)) [year-from year-to]) (filter-search evt)))))))
+                               (when (every? #(= 4 (count %)) [year-from year-to]) (filter-search evt)))))
+    (event/listen! (by-class "p2-select-lang")
+                   :click
+                   (fn [evt]
+                     (do
+                       (dom/remove-attr! (css/sel ".p2-facet.lang") :checked)
+                       (dom/set-attr! (css/sel (->> (event/target evt) .-parentElement) ".p2-facet.lang") :checked "checked")
+                       (filter-search evt))))
+    (event/listen! (by-class "p2-select-format")
+                   :click
+                   (fn [evt]
+                     (do
+                       (dom/remove-attr! (css/sel ".p2-facet.format") :checked)
+                       (dom/set-attr! (css/sel (->> (event/target evt) .-parentElement) ".p2-facet.format") :checked "checked")
+                       (filter-search evt))))
+    ))
 
 (defn search-error-handler [{:keys [status status-text]}]
   (log (str "something bad happened: " status " " status-text)))
