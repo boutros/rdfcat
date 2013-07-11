@@ -137,8 +137,8 @@
                 (string? hvem) (only-who hvem)
                 (string? hva) (only-what hva))]
     (esd/search "rdfcat" "work" :from offset :size limit :query {:bool query}
-                :facets {:formats {:terms {:field "edition.format"}}
-                         :languages {:terms {:field "edition.language"}}
+                :facets {:formats {:terms {:field "edition.format" :size (config :p2-num-facets)}}
+                         :languages {:terms {:field "edition.language" :size (config :p2-num-facets)}}
                          :years {:statistical {:field "edition.year"}}})))
 
 (defn p2-search-filtered [who what offset limit filters]
@@ -149,8 +149,8 @@
                 (string? hvem) (only-who hvem)
                 (string? hva) (only-what hva))]
     (esd/search "rdfcat" "work" :from offset :size limit :query {:bool query}
-                :facets {:formats {:terms {:field "edition.format"}}
-                         :languages {:terms {:field "edition.language"}}
+                :facets {:formats {:terms {:field "edition.format" :size (config :p2-num-facets)}}
+                         :languages {:terms {:field "edition.language" :size (config :p2-num-facets)}}
                          :years {:statistical {:field "edition.year"}}}
                 :filter {:and {:filters
                          [{:terms {:format (remove nil? (filters :format)) :execution "bool"}}
