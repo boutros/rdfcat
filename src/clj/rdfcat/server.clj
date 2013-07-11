@@ -142,10 +142,11 @@
                 (every? string? [hvem hva]) (who-and-what hvem hva)
                 (string? hvem) (only-who hvem)
                 (string? hva) (only-what hva))]
-    (esd/search "rdfcat" "work" :from offset :size limit :query {:bool query}
-                :facets {:formats {:terms {:field "edition.format" :size 30}}
-                         :languages {:terms {:field "edition.language" :size 30}}
-                         :years {:statistical {:field "edition.year"}}})))
+    (when (or hvem hva)
+      (esd/search "rdfcat" "work" :from offset :size limit :query {:bool query}
+                  :facets {:formats {:terms {:field "edition.format" :size 30}}
+                           :languages {:terms {:field "edition.language" :size 30}}
+                           :years {:statistical {:field "edition.year"}}}))))
 
 (defn p2-search-filtered [who what offset limit filters]
   (let [hvem (if (empty? who) nil who)
@@ -154,17 +155,16 @@
                 (every? string? [hvem hva]) (who-and-what hvem hva)
                 (string? hvem) (only-who hvem)
                 (string? hva) (only-what hva))]
-    (esd/search "rdfcat" "work" :from offset :size limit :query {:bool query}
-                :facets {:formats {:terms {:field "edition.format" :size 30}}
-                         :languages {:terms {:field "edition.language" :size 30}}
-                         :years {:statistical {:field "edition.year"}}}
-                :filter {:and {:filters
-                         [{:terms {:format (remove nil? (filters :format)) :execution "bool"}}
-                          {:terms {:language (remove nil? (filters :lang)) :execution "bool"}}
-                          {:range {:year {:from (filters :year-from) :to (filters :year-to)
-                                          :include_lower true :include_upper true}}}]
-                         }}
-                )))
+    (when (or hvem hva)
+      (esd/search "rdfcat" "work" :from offset :size limit :query {:bool query}
+                  :facets {:formats {:terms {:field "edition.format" :size 30}}
+                           :languages {:terms {:field "edition.language" :size 30}}
+                           :years {:statistical {:field "edition.year"}}}
+                  :filter {:and {:filters
+                                 [{:terms {:format (remove nil? (filters :format)) :execution "bool"}}
+                                  {:terms {:language (remove nil? (filters :lang)) :execution "bool"}}
+                                  {:range {:year {:from (filters :year-from) :to (filters :year-to)
+                                                  :include_lower true :include_upper true}}}]}}))))
 
 (defroutes app-routes
   (GET "/" [] (redirect "p2"))

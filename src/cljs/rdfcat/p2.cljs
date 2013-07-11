@@ -79,7 +79,8 @@
 (defn search [evt page]
   (let [who (dom/value (by-id "search-who"))
         what (dom/value (by-id "search-what"))]
-    (when-not (every? empty? [who what])
+    (if (or (every? empty? [who what]) (every? #(< (count %) 2) [who what]))
+      (dom/destroy-children! (by-id "search-results"))
       (ajax-call "/search/p2" search-handler "POST" {:who who :what what :page page}))))
 
 (defn filter-search
@@ -91,11 +92,13 @@
          year-to (dom/value (by-id "p2-filter-year-to"))
          who (dom/value (by-id "search-who"))
          what (dom/value (by-id "search-what"))]
-     (ajax-call "/search/p2filter" search-handler "POST"
-                {:who who :what what :page page
-                 :filters {:lang (vec filter-lang) :format (vec filter-format)
-                           :year-from year-from :year-to year-to}}))))
+     (if (or (every? empty? [who what]) (every? #(< (count %) 2) [who what]))
+       (dom/destroy-children! (by-id "search-results"))
+       (ajax-call "/search/p2filter" search-handler "POST"
+                  {:who who :what what :page page
+                   :filters {:lang (vec filter-lang) :format (vec filter-format)
+                             :year-from year-from :year-to year-to}})))))
 
 (defn ^:export init []
   (log "Hallo der, mister Åsen.")
-  (event/listen! (by-class "medium-search") :keyup #(search % 1)))
+  (event/listen! (by-class "medium-search") :input #(search % 1)))
