@@ -91,7 +91,9 @@
          year-from (dom/value (by-id "p2-filter-year-from"))
          year-to (dom/value (by-id "p2-filter-year-to"))
          who (dom/value (by-id "search-who"))
-         what (dom/value (by-id "search-what"))]
+         what (dom/value (by-id "search-what"))
+         ;lang-missing (if ())
+         ]
      (if (or (every? empty? [who what]) (every? #(< (count %) 2) [who what]))
        (dom/destroy-children! (by-id "search-results"))
        (ajax-call "/search/p2filter" search-handler "POST"

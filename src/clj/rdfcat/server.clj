@@ -106,6 +106,11 @@
                                               (if (or (false? filters) (some #{(l :term)} (filters :lang)))
                                                 identity
                                                 (html/remove-attr :checked))))
+  [:label.p2-select-lang-missing] (html/content
+                                    (str "Uspesifisert (" (->> results :facets :languages :missing int) ")"))
+  [:div.p2-lang-missing] (if (zero? (->> results :facets :languages :missing int))
+                           (html/add-class "hidden")
+                           identity)
   [:#p2-filter-year-from] (html/set-attr :value (let [n (->> results :facets :years :min)
                                                       year-from (get filters :year-from false)]
                                                   (if year-from
