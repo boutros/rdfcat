@@ -1,3 +1,14 @@
+TODO
+======
+1. lag spørring og indekser manuelt: work.creator role=editor+director (illustrator? actor?)
+2. vis mer en creator.first is venstrekolonne, eks Beatles m.fl, Jon Bing og Bringsvær
+3. muliggjør deselect uspesifisert år + språk
+4. throttle search (300-500 ms?) på klientsiden
+5. refakotrer og rydd opp
+6. installer på koha10 es plugins head + bigdesk
+7. emner clickable? søkefelt ->> emne: stumfilm
+
+
 REPL!
 =====
 (load-file "doc/repl.clj")
@@ -46,7 +57,7 @@ SELECT DISTINCT ?format_label
 WHERE { ?s <http://data.deichman.no/literaryFormat> ?format . ?format rdfs:label ?format_label }
 
 sjanger?
-SELECT DISTINCT ?genreLabel 
+SELECT DISTINCT ?genreLabel
 FROM <http://data.deichman.no/books>
 WHERE { ?s <http://dbpedia.org/ontology/literaryGenre> ?genre . ?genre rdfs:label ?genreLabel }
 
@@ -198,7 +209,7 @@ SPRÅK
 
 creator.role     på norsk
 ----------------------------------
-contributor(bok) bidrag: Jon Bing, Carl 
+contributor(bok) bidrag: Jon Bing, Carl
 contributor(cd)  medvirkende: x, y, orchestar ditt
 editor           redaktør: Hr Hansen
                  redaktører: A, B
