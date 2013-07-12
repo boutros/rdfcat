@@ -30,7 +30,7 @@
           :editioncreator :editioncreatorname :editionsubjectlabel
           :editiontranslator :editiontranslatorname :editioneditor :editioneditorname
           :editioncontributor :editioncontributorname :editionillustrator :editionillustratorname
-          :director :directorname :actor :actorname :editionmusicgenrelabel :editiongenrelabel)
+          :editiondirector :editiondirectorname :actor :actorname :editionmusicgenrelabel :editiongenrelabel)
   (from (URI. "http://data.deichman.no/books"))
   (where work [:fabio :hasManifestation] :edition \;
               [:dc :title] :title \.
@@ -48,8 +48,8 @@
           (optional :edition [:fabio :hasSubtitle] :editionsubtitle)
           (optional :edition [:dc :creator] :editioncreator \.
                     :editioncreator [:foaf :name] :editioncreatorname)
-          (optional :edition [:bibo :director] :director \.
-                    :director [:foaf :name] :directorname)
+          (optional :edition [:bibo :director] :editiondirector \.
+                    :editiondirector [:foaf :name] :directorname)
           (optional :edition [:deichman :actor] :actor \.
                     :actor [:foaf :name] :actorname)
           (optional :edition [:bibo :translator] :editiontranslator \.

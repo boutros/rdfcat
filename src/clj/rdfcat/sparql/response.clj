@@ -82,7 +82,7 @@
 ;; Generating the giant work-map
 
 (def translation-map
-  {:creator :id :creatorname :name
+  {:creator :id :creatorname :name :contributor :id :contributorname :name
    :edition :id :editiontitle :title :editionyear :year
    :editionlang :language :editionformat :format
    :editionsubjectlabel :label
@@ -99,10 +99,10 @@
         solutions (solutions res)
         editions (:edition bindings)
         directors (->> (extract-ensure-all
-                   [:edition :director :directorname] solutions)
+                   [:edition :editiondirector :editiondirectorname] solutions)
                       (map #(assoc % :role "director"))
-                      (map #(rename-keys % {:directorname :name
-                                            :director :id})))
+                      (map #(rename-keys % {:editiondirectorname :name
+                                            :editiondirector :id})))
         actors (->> (extract-ensure-all
                    [:edition :actor :actorname] solutions)
                       (map #(assoc % :role "actor"))
@@ -136,8 +136,12 @@
                                                :editioncontributor :id})))]
     {:title (->> bindings :title first)
      :id (->> bindings :id first)
-     :creator (vec (map #(rename-keys % translation-map)
-                        (extract [:creator :creatorname] solutions)))
+     :creator (vec (clojure.set/union (->> (extract [:creator :creatorname] solutions)
+                                           (map #(assoc % :role "creator"))
+                                           (map #(rename-keys % translation-map)))
+                                      (->> (extract [:contributor :contributorname] solutions)
+                                           (map #(assoc % :role "contributor"))
+                                           (map #(rename-keys % translation-map)))))
      :subject (-> (->> bindings
                        :editionsubjectlabel
                        (into (bindings :editionmusicgenrelabel))
