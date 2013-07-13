@@ -29,16 +29,16 @@
                                  [:label] (html/content
                                             (str (l :term) " (" (l :count) ")"))
                                  [:input] (html/do->
-                                              (html/set-attr :data-original (l :term))
-                                              (if (or (false? filters) (some #{(l :term)} (filters :lang)))
-                                                identity
-                                                (html/remove-attr :checked))))
+                                            (html/set-attr :data-original (l :term))
+                                            (if (or (false? filters) (some #{(l :term)} (filters :lang)))
+                                              identity
+                                              (html/remove-attr :checked))))
   [:label.p2-lang-missing] (html/content
-                                    (str "Uspesifisert (" (->> results :facets :languages :missing int) ")"))
+                             (str "Uspesifisert (" (->> results :facets :languages :missing int) ")"))
   [:input.lang-missing] (if (results :incl-missing-lang)
                           identity
                           (html/remove-attr :checked))
-  [:div.p2-lang-missing] (if (zero? (->> results :facets :languages :missing int))
+  [:div.p2-lang-missings] (if (zero? (->> results :facets :languages :missing int))
                            (html/add-class "hidden")
                            identity)
   [:#p2-filter-year-from] (html/set-attr :value (let [n (->> results :facets :years :min)
@@ -138,9 +138,9 @@
                 (string? hva) (only-what hva))]
     (when (or hvem hva)
       (-> (esd/search "rdfcat" "work" :from offset :size limit :query {:bool query}
-                  :facets {:formats {:terms {:field "edition.format" :size 30}}
-                           :languages {:terms {:field "edition.language" :size 30}}
-                           :years {:statistical {:field "edition.year"}}})
+                      :facets {:formats {:terms {:field "edition.format" :size 30}}
+                               :languages {:terms {:field "edition.language" :size 30}}
+                               :years {:statistical {:field "edition.year"}}})
           (assoc :incl-missing-lang true)))))
 
 (defn search-filtered [who what offset limit filters]
@@ -154,17 +154,17 @@
         filters (update-in filters [:lang] #(remove #{"missing-lang"} %))
         lang-filters (if incl-missing-lang
                        {:or {:filters [{:terms {:language (remove nil? (filters :lang)) :execution "bool"}}
-                                   {:missing {:field "language" :existence true :null_value true}}]}}
+                                       {:missing {:field "language" :existence true :null_value true}}]}}
                        {:terms {:language (remove nil? (filters :lang)) :execution "bool"}})]
     (when (or hvem hva)
       (-> (esd/search "rdfcat" "work" :from offset :size limit :query {:bool query}
-                  :facets {:formats {:terms {:field "edition.format" :size 30}}
-                           :languages {:terms {:field "edition.language" :size 30}}
-                           :years {:statistical {:field "edition.year"}}}
-                  :filter {:and {:filters
-                                 [{:terms {:format (remove nil? (filters :format)) :execution "bool"}}
-                                  lang-filters
-                                  {:or {:filters [{:range {:year {:from (filters :year-from) :to (filters :year-to)
-                                                  :include_lower true :include_upper true}}}
-                                                  {:missing {:field "year" :existence true :null_value true}}]}}]}})
+                      :facets {:formats {:terms {:field "edition.format" :size 30}}
+                               :languages {:terms {:field "edition.language" :size 30}}
+                               :years {:statistical {:field "edition.year"}}}
+                      :filter {:and {:filters
+                                     [{:terms {:format (remove nil? (filters :format)) :execution "bool"}}
+                                      lang-filters
+                                      {:or {:filters [{:range {:year {:from (filters :year-from) :to (filters :year-to)
+                                                                      :include_lower true :include_upper true}}}
+                                                      {:missing {:field "year" :existence true :null_value true}}]}}]}})
           (assoc :incl-missing-lang incl-missing-lang)))))
