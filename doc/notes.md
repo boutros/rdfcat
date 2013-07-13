@@ -12,6 +12,7 @@ TODO
    - server query fn refaktorer til en fn
 6. installer på koha10 es plugins head + bigdesk
 7. emner clickable? søkefelt ->> emne: stumfilm
+8. error-handling when search fails
 
 
 REPL!
