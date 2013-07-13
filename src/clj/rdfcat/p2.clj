@@ -14,6 +14,48 @@
 (deftemplate petter "p2.html" [] )
 
 
+(defsnippet facets "p2-results.html" [:div.search-filters]
+  [results page limit filters]
+  [:div.p2-format] (html/clone-for [f (->> results :facets :formats :terms)]
+                                   [:label]
+                                   (html/content
+                                     (str (get-in formats [(f :term) :label] "XXX") " (" (f :count) ")"))
+                                   [:input] (html/do->
+                                              (html/set-attr :data-original (f :term))
+                                              (if (or (false? filters) (some #{(f :term)} (filters :format)))
+                                                identity
+                                                (html/remove-attr :checked))))
+  [:div.p2-lang] (html/clone-for [l (->> results :facets :languages :terms)]
+                                 [:label] (html/content
+                                            (str (l :term) " (" (l :count) ")"))
+                                 [:input] (html/do->
+                                              (html/set-attr :data-original (l :term))
+                                              (if (or (false? filters) (some #{(l :term)} (filters :lang)))
+                                                identity
+                                                (html/remove-attr :checked))))
+  [:label.p2-lang-missing] (html/content
+                                    (str "Uspesifisert (" (->> results :facets :languages :missing int) ")"))
+  [:input.lang-missing] (if (results :incl-missing-lang)
+                          identity
+                          (html/remove-attr :checked))
+  [:div.p2-lang-missing] (if (zero? (->> results :facets :languages :missing int))
+                           (html/add-class "hidden")
+                           identity)
+  [:#p2-filter-year-from] (html/set-attr :value (let [n (->> results :facets :years :min)
+                                                      year-from (get filters :year-from false)]
+                                                  (if year-from
+                                                    year-from
+                                                    (if (number? n)
+                                                      (->> n int str)
+                                                      "~"))))
+  [:#p2-filter-year-to] (html/set-attr :value (let [n (->> results :facets :years :max)
+                                                    year-to (get filters :year-to false)]
+                                                (if year-to
+                                                  year-to
+                                                  (if (number? n)
+                                                    (->> n int str)
+                                                    "~")))))
+
 (defsnippet results "p2-results.html" [:div#search-results]
   [results page limit filters]
   [:caption] (html/content (str (->> results :hits :total) " treff (" (->> results :took) "ms)"))
@@ -71,42 +113,7 @@
                   [:tr.p2-show-editions] (when (> (->> work :_source :edition count)
                                                   (config :p2-show-num-editions)) (html/add-class "visible")))
   [[:tr.p2-edition (html/nth-child -1 (+ 2 (config :p2-show-num-editions)))]] (html/add-class "visible")
-  [:div.p2-format] (html/clone-for [f (->> results :facets :formats :terms)]
-                                   [:label]
-                                   (html/content
-                                     (str (get-in formats [(f :term) :label] "XXX") " (" (f :count) ")"))
-                                   [:input] (html/do->
-                                              (html/set-attr :data-original (f :term))
-                                              (if (or (false? filters) (some #{(f :term)} (filters :format)))
-                                                identity
-                                                (html/remove-attr :checked))))
-  [:div.p2-lang] (html/clone-for [l (->> results :facets :languages :terms)]
-                                 [:label] (html/content
-                                            (str (l :term) " (" (l :count) ")"))
-                                 [:input] (html/do->
-                                              (html/set-attr :data-original (l :term))
-                                              (if (or (false? filters) (some #{(l :term)} (filters :lang)))
-                                                identity
-                                                (html/remove-attr :checked))))
-  [:label.p2-select-lang-missing] (html/content
-                                    (str "Uspesifisert (" (->> results :facets :languages :missing int) ")"))
-  [:div.p2-lang-missing] (if (zero? (->> results :facets :languages :missing int))
-                           (html/add-class "hidden")
-                           identity)
-  [:#p2-filter-year-from] (html/set-attr :value (let [n (->> results :facets :years :min)
-                                                      year-from (get filters :year-from false)]
-                                                  (if year-from
-                                                    year-from
-                                                    (if (number? n)
-                                                      (->> n int str)
-                                                      "~"))))
-  [:#p2-filter-year-to] (html/set-attr :value (let [n (->> results :facets :years :max)
-                                                    year-to (get filters :year-to false)]
-                                                (if year-to
-                                                  year-to
-                                                  (if (number? n)
-                                                    (->> n int str)
-                                                    "~")))))
+  [:div.search-filters] (html/content (facets results page limit filters)))
 
 ;; queries
 
@@ -130,10 +137,11 @@
                 (string? hvem) (only-who hvem)
                 (string? hva) (only-what hva))]
     (when (or hvem hva)
-      (esd/search "rdfcat" "work" :from offset :size limit :query {:bool query}
+      (-> (esd/search "rdfcat" "work" :from offset :size limit :query {:bool query}
                   :facets {:formats {:terms {:field "edition.format" :size 30}}
                            :languages {:terms {:field "edition.language" :size 30}}
-                           :years {:statistical {:field "edition.year"}}}))))
+                           :years {:statistical {:field "edition.year"}}})
+          (assoc :incl-missing-lang true)))))
 
 (defn search-filtered [who what offset limit filters]
   (let [hvem (if (empty? who) nil who)
@@ -141,17 +149,22 @@
         query (cond
                 (every? string? [hvem hva]) (who-and-what hvem hva)
                 (string? hvem) (only-who hvem)
-                (string? hva) (only-what hva))]
+                (string? hva) (only-what hva))
+        incl-missing-lang (if (some #{"missing-lang"} (filters :lang)) true false)
+        filters (update-in filters [:lang] #(remove #{"missing-lang"} %))
+        lang-filters (if incl-missing-lang
+                       {:or {:filters [{:terms {:language (remove nil? (filters :lang)) :execution "bool"}}
+                                   {:missing {:field "language" :existence true :null_value true}}]}}
+                       {:terms {:language (remove nil? (filters :lang)) :execution "bool"}})]
     (when (or hvem hva)
-      (esd/search "rdfcat" "work" :from offset :size limit :query {:bool query}
+      (-> (esd/search "rdfcat" "work" :from offset :size limit :query {:bool query}
                   :facets {:formats {:terms {:field "edition.format" :size 30}}
                            :languages {:terms {:field "edition.language" :size 30}}
                            :years {:statistical {:field "edition.year"}}}
                   :filter {:and {:filters
                                  [{:terms {:format (remove nil? (filters :format)) :execution "bool"}}
-                                  {:or {:filters [{:terms {:language (remove nil? (filters :lang)) :execution "bool"}}
-                                   {:missing {:field "language" :existence true :null_value true}}]}}
+                                  lang-filters
                                   {:or {:filters [{:range {:year {:from (filters :year-from) :to (filters :year-to)
                                                   :include_lower true :include_upper true}}}
-                                                  {:missing {:field "year" :existence true :null_value true}}]}}
-                                  ]}}))))
+                                                  {:missing {:field "year" :existence true :null_value true}}]}}]}})
+          (assoc :incl-missing-lang incl-missing-lang)))))

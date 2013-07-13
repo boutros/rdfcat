@@ -24,6 +24,6 @@
                                          :optimizations :whitespace
                                          :pretty-print true}
                               :jar true}}}
-  :main rdfcat.index
+  :main rdfcat.p2
   :ring {:handler rdfcat.server/app}
   :profiles {:dev {:dependencies [[ring-mock "0.1.5"]]}})

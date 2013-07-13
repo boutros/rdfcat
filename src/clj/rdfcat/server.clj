@@ -41,11 +41,12 @@
                 false)))))
   (POST "/search/p2filter" [who what page filters]
         (let [limit (config :p2-results-per-page)
-              offset (* (dec page) limit)]
+              offset (* (dec page) limit)
+              res (p2/search-filtered who what offset limit filters)]
           (html-response
             (html/emit*
               (p2/results
-                (p2/search-filtered who what offset limit filters)
+                res
                 page
                 limit
                 filters)))))
