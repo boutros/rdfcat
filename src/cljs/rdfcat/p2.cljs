@@ -25,7 +25,6 @@
 (defn show-subjects [evt]
   (let [t (event/target evt)
         p (->> t .-parentElement)]
-    (log "viser emner")
     (dom/remove-class! (css/sel p ".p2-rest-subjects") "hidden")
     (dom/destroy! t)))
 

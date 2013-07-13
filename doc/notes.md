@@ -5,6 +5,11 @@ TODO
 3. muliggjør deselect uspesifisert år + språk
 4. throttle search (300-500 ms?) på klientsiden
 5. refakotrer og rydd opp
+   - eget namespace p2
+   - del p2-snippet opp i flere snippets
+   - lag helperfns for å lage lister opp til n + link til se alle
+   - helper/snippet for paginering
+   - server query fn refaktorer til en fn
 6. installer på koha10 es plugins head + bigdesk
 7. emner clickable? søkefelt ->> emne: stumfilm
 
