@@ -115,12 +115,12 @@
 
 (defn only-what [what]
   {:must {:multi_match {:query what
-                        :fields ["work.title" "edition.title" "work.subject"]}}})
+                        :fields ["work.title" "edition.title" "edition.subtitle" "work.subject"]}}})
 
 (defn who-and-what [who what]
   {:must [{:match {"name" who}}
           {:multi_match
-           {:query what :fields ["work.title" "edition.title" "work.subject"]}}]})
+           {:query what :fields ["work.title" "edition.title" "edition.subtitle" "work.subject"]}}]})
 
 (defn search [who what offset limit]
   (let [hvem (if (empty? who) nil who)
