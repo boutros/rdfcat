@@ -14,7 +14,7 @@
                  ]
   :plugins [[lein-cljsbuild "0.3.0"]
             [lein-ring "0.8.3"]]
-  ;:hooks [leiningen.cljsbuild]
+  :hooks [leiningen.cljsbuild]
   :source-paths ["src/clj"]
   :cljsbuild {
               :builds {
@@ -24,6 +24,6 @@
                                          :optimizations :whitespace
                                          :pretty-print true}
                               :jar true}}}
-  :main rdfcat.p2
+  :main rdfcat.index
   :ring {:handler rdfcat.server/app}
   :profiles {:dev {:dependencies [[ring-mock "0.1.5"]]}})

@@ -86,7 +86,8 @@
    :edition :id :editiontitle :title :editionyear :year
    :editionlang :language :editionformat :format
    :editionsubjectlabel :label
-   :editionsubtitle :subtitle})
+   :editionsubtitle :subtitle :director :id :directorname :name
+   :editor :id :editorname :name})
 
 (defn- select-edition-creator [ed creators]
   (for [c creators :when (= (:edition c) ed)]
@@ -184,3 +185,15 @@
                    (map #(update-in %1 [:creator] into
                                     (select-edition-creator (:id %1) editors)))
                    vec)}))
+
+(defn updates
+  "Extract work.editor + work.director to update es index if they exists"
+  [res]
+  {:id (->> res bindings :id first)
+   :creator (vec (clojure.set/union
+                   (->> (extract [:director :directorname] (solutions res))
+                        (map #(assoc % :role "director"))
+                        (map #(rename-keys % translation-map)))
+                   (->> (extract [:editor :editorname] (solutions res))
+                        (map #(assoc % :role "editor"))
+                        (map #(rename-keys % translation-map)))))})
