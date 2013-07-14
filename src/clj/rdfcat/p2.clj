@@ -105,7 +105,8 @@
                                  (identity %1))
                                 (->> work :_source :edition (sort-by :year)))]
                     [:td.format :img] (html/clone-for [f (edition :format)]
-                                                      (html/set-attr :src (get-in formats [f :image] "?")))
+                                                        (html/set-attr :src (get-in formats [f :image] "?")
+                                                                       :title (get-in formats [f :label] "?")))
                     [:td.title] (html/content (edition :title))
                     [:td.year] (html/content (str (edition :year)))
                     [:td.lang] (html/content (clojure.string/join ", " (remove #(= "Norsk" %) (edition :language)))))
