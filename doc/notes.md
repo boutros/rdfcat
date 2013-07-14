@@ -1,19 +1,21 @@
 TODO
 ======
-1. lag spørring og indekser manuelt: work.creator role=editor+director (illustrator? actor?)
-2. vis mer en creator.first is venstrekolonne, eks Beatles m.fl, Jon Bing og Bringsvær
-3. muliggjør deselect uspesifisert år + språk
-4. throttle search (300-500 ms?) på klientsiden
-5. refakotrer og rydd opp
-   - eget namespace p2
+* indekser offset 320,000 limit 6000
+* lag spørring og indekser manuelt: work.creator role=editor+director (illustrator? actor?)
+* vis mer en creator.first i venstrekolonne, eks Beatles m.fl, Jon Bing og Bringsvær
+* muliggjør deselect uspesifisert år
+* throttle search (300-500 ms?) på klientsiden
+* refakotrer og rydd opp
    - del p2-snippet opp i flere snippets
    - lag helperfns for å lage lister opp til n + link til se alle
    - helper/snippet for paginering
-   - server query fn refaktorer til en fn
-6. installer på koha10 es plugins head + bigdesk
-7. emner clickable? søkefelt ->> emne: stumfilm
-8. error-handling when search fails
-
+   - p2 query fn refaktorer til en fn
+* emner clickable? søkefelt ->> emne: stumfilm
+* error-handling when search fails
+* vis alle utgaver hvis <=6, opp til 3 hvis flere
+* http://purl.org/spar/fabio/hasURL, eks:
+  SELECT * WHERE {<http://data.deichman.no/resource/tnr_431462> ?p ?o}
+* dc:abstract
 
 REPL!
 =====
