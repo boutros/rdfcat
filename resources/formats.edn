@@ -11,14 +11,14 @@
  "http://data.deichman.no/format/Audiobook"             {:image "img/audiobook.png" :label "Lydbok"}
  "http://data.deichman.no/format/Digi_card"             {:label "Digi-kort"}
  "http://data.deichman.no/format/Digi_book"             {:label "Digi-bok"}
- "http://data.deichman.no/format/CD_ROM"                {:label "CD-ROM"}
+ "http://data.deichman.no/format/CD_ROM"                {:image "img/cdrom.png" :label "CD-ROM"}
  "http://data.deichman.no/format/tf"                    {:label "For døve?"}
- "http://data.deichman.no/format/Map"                   {:label "Kart"}
+ "http://data.deichman.no/format/Map"                   {:image "img/map.png" :label "Kart"}
  "http://data.deichman.no/format/MP3"                   {:label "MP3"}
  "http://data.deichman.no/format/Language_course"       {:label "Språkkurs"}
- "http://data.deichman.no/format/Web_page"              {:label "Nettside"}
- "http://data.deichman.no/format/Reversal_film"         {:label "Lysbilde"}
+ "http://data.deichman.no/format/Web_page"              {:image "img/web.png" :label "Nettside"}
+ "http://data.deichman.no/format/Reversal_film"         {:image "img/slide.png" :label "Lysbilde"}
  "http://data.deichman.no/format/Manuscript"            {:label "Manuskript"}
- "http://data.deichman.no/format/Computer_file"         {:label "Digital fil"}
+ "http://data.deichman.no/format/Computer_file"         {:image "img/fil.png" :label "Digital fil"}
 }
 
