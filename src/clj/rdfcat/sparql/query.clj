@@ -25,12 +25,7 @@
 
 (defquery work
   [work]
-  (select :id :title :creator :creatorname :contributor :contributorname
-          :edition :editionlang :editionyear :editiontitle :editionsubtitle :editionformat
-          :editioncreator :editioncreatorname :editionsubjectlabel
-          :editiontranslator :editiontranslatorname :editioneditor :editioneditorname
-          :editioncontributor :editioncontributorname :editionillustrator :editionillustratorname
-          :editiondirector :editiondirectorname :actor :actorname :editionmusicgenrelabel :editiongenrelabel)
+  (select *)
   (from (URI. "http://data.deichman.no/books"))
   (where work [:fabio :hasManifestation] :edition \;
               [:dc :title] :title \.
@@ -40,6 +35,10 @@
                    :creator [:foaf :name] :creatorname \.)
          (optional work [:dc :contributor] :contributor \.
                    :contributor [:foaf :name] :contributorname \.)
+         (optional work [:bibo :director] :director \.
+                   :director [:foaf :name] :directorname)
+         (optional work [:bibo :editor] :editor \.
+                  :editor [:foaf :name] :editorname)
          :edition [:dc :title] :editiontitle \;
                   [:dc :format] :editionformat \.
           (optional :edition [:dc :issued] :editionyear \.)
@@ -67,16 +66,3 @@
                     :editionmusicgenre [:rdfs :label] :editionmusicgenrelabel)
           (optional :edition [:dbo :literaryGenre] :genre \.
                     :genre [:rdfs :label] :editiongenrelabel)))
-
-;fetch work.editor & work.director as well
-(defquery work-update
-  [work]
-  (select-distinct :id :director :directorname :editor :editorname)
-  (from (URI. "http://data.deichman.no/books"))
-  (where work [:fabio :hasManifestation] :edition \.
-         :id [:fabio :hasManifestation] :edition \.
-         (filter :id = work)
-         (optional work [:bibo :director] :director \.
-                    :director [:foaf :name] :directorname)
-         (optional work [:bibo :editor] :editor \.
-                  :editor [:foaf :name] :editorname)))

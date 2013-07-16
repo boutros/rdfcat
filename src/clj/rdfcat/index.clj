@@ -31,9 +31,6 @@
 (defn index! [work]
   (esd/put "rdfcat" "work" (:id work) work))
 
-(defn update-index! [work]
-  (esd/update-with-script "rdfcat" "work" (:id work) "ctx._source.creator += creator;" work))
-
 (defn setup-index []
   (info "Creating index & mapping")
   (esr/connect! "http://127.0.0.1:9200")
@@ -53,18 +50,6 @@
           (index! (populate-work res))))
       (catch Exception e (error "Error indexing work:" work "because" (.getMessage e)))))
   (info "Done indexing batch" offset "-" (+ offset limit)))
-
-(defn update-works [offset limit]
-  (esr/connect! "http://127.0.0.1:9200")
-  (info "Start updating works batch" offset "-" (+ offset limit ))
-  (doseq [work (get-works offset limit)]
-    (try
-      (let [res (->> work URI. query/work-update fetch)]
-        (if (->> res :results :bindings empty?)
-          (info "Nothing to update for work:" work)
-          (update-index! (updates res))))
-      (catch Exception e (error "Error indexing work:" work "because" (.getMessage e)))))
-  (info "Done updating batch" offset "-" (+ offset limit)))
 
 (defn index-all! []
   (doseq [i (range 0 320000 10000)]
