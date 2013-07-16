@@ -15,6 +15,11 @@ TODO
 * http://purl.org/spar/fabio/hasURL, eks:
   SELECT * WHERE {<http://data.deichman.no/resource/tnr_431462> ?p ?o}
 * dc:abstract
+* hasPart, både uri og tekst?
+  SELECT * 
+  FROM <http://data.deichman.no/books>
+  WHERE { <http://data.deichman.no/resource/tnr_914497> ?p ?o}
+
 
 REPL!
 =====
