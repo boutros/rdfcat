@@ -4,7 +4,6 @@ TODO
 * lag spørring og indekser manuelt: work.creator role=editor+director (illustrator? actor?)
 * vis mer en creator.first i venstrekolonne, eks Beatles m.fl, Jon Bing og Bringsvær
 * muliggjør deselect uspesifisert år
-* throttle search (300-500 ms?) på klientsiden
 * refakotrer og rydd opp
    - del p2-snippet opp i flere snippets
    - lag helperfns for å lage lister opp til n + link til se alle

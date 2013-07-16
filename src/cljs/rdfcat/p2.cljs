@@ -4,7 +4,8 @@
             [domina :as dom :refer [by-id by-class log]]
             [domina.css :as css]
             [domina.events :as event]
-            [goog.net.XhrIo :as xhr]))
+            [goog.net.XhrIo :as xhr])
+  (:import goog.async.Throttle))
 
 ;(repl/connect "http://localhost:9000/repl")
 
@@ -90,9 +91,7 @@
          year-from (dom/value (by-id "p2-filter-year-from"))
          year-to (dom/value (by-id "p2-filter-year-to"))
          who (dom/value (by-id "search-who"))
-         what (dom/value (by-id "search-what"))
-         ;lang-missing (if ())
-         ]
+         what (dom/value (by-id "search-what"))]
      (if (or (every? empty? [who what]) (every? #(< (count %) 2) [who what]))
        (dom/destroy-children! (by-id "search-results"))
        (ajax-call "/search/p2filter" search-handler "POST"
@@ -101,5 +100,6 @@
                              :year-from year-from :year-to year-to}})))))
 
 (defn ^:export init []
-  (log "Hallo der, mister Åsen.")
-  (event/listen! (by-class "medium-search") :input #(search % 1)))
+  (log "Hallo der, mister Åsen!")
+  (let [throttled-search (Throttle. (fn [evt] (search evt 1)) 400)]
+    (event/listen! (by-class "medium-search") :input #(.fire throttled-search %) )))
