@@ -2,7 +2,7 @@
   (:require [net.cgrand.enlive-html :as html :refer [deftemplate defsnippet]]
             [clojurewerkz.elastisch.rest :as esr]
             [clojurewerkz.elastisch.rest.document :as esd]
-            [rdfcat.util.string :refer [length-num]]))
+            [rdfcat.util.string :refer [length-num list-names]]))
 
 (defonce config
   (read-string (slurp (clojure.java.io/resource "config.edn"))))
@@ -13,6 +13,16 @@
 
 (deftemplate petter "p2.html" [] )
 
+(defn pp-creators [coll]
+  "Select which dc:creator, bibo:director or bibo:editor to show"
+  (let [creators (filter #(= "creator" (:role %)) coll)
+        directors (filter #(= "director" (:role %)) coll)
+        editors (filter #(= "editor" (:role %)) coll)]
+    (cond
+      (seq creators) (list-names (map :name creators))
+      (seq editors) (str (list-names (map :name editors)) " (red.)" )
+      (seq directors) (str (list-names (map :name directors)) " (regi)")
+      :else "(div)")))
 
 (defsnippet facets "p2-results.html" [:div.search-filters]
   [results page limit filters]
@@ -81,7 +91,7 @@
                                         (html/content (str p))))))
   [:tbody.p2-work]
   (html/clone-for [work (->> results :hits :hits)]
-                  [:td.p2-author :strong] (html/content (or (->> work :_source :creator first :name) "(div)"))
+                  [:td.p2-author :strong] (html/content (pp-creators (->> work :_source :creator)))
                   [:td.p2-title :em] (html/content (->> work :_source :title))
                   [:tr.p2-subjects] (if (config :p2-show-subjects)
                                       (html/remove-class "hidden")

@@ -1,5 +1,6 @@
 (ns rdfcat.util.string
-  "String transformation and utility functions")
+  "String transformation and utility functions"
+  (:require [clojure.string :as string]))
 
 (defn date-clean [s]
   "Takes a string and return a 4-digit year as integer,
@@ -20,3 +21,14 @@
       (> s length) (dec i)
       (empty? c) i
       :else (recur (rest c) (+ (first c) s) (inc i)))))
+
+(defn list-names
+  "Takes a coll of names, and list them with conjuctions according to the
+  length of the coll."
+  [coll]
+  (cond
+    (= 0 (count coll)) ""
+    (= 1 (count coll)) (first coll)
+    (= 2 (count coll)) (string/join " og " coll)
+    (= 3 (count coll)) (str (first coll) ", " (second coll) " og " (last coll))
+    :else (str (first coll) ", " (second coll) " m.fl.")))

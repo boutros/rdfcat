@@ -16,3 +16,10 @@
   (is (= 2 (length-num ["kake" "mann" "fisk"] 10)))
   (is (= 3 (length-num ["kake" "mann" "fisk"] 100)))
   (is (= 6 (length-num ["a" "bb" "ccc" "ddd" "eee" "xxx" "yy"] 15))))
+
+(deftest test-list-names
+  (is (= (list-names []) ""))
+  (is (= (list-names ["Per"]) "Per"))
+  (is (= (list-names ["Per" "Pål"]) "Per og Pål"))
+  (is (= (list-names ["Per" "Pål" "Espen"]) "Per, Pål og Espen"))
+  (is (= (list-names ["Per" "Pål" "Frank" "Franz"]) "Per, Pål m.fl.")))
