@@ -66,3 +66,16 @@
                     :editionmusicgenre [:rdfs :label] :editionmusicgenrelabel)
           (optional :edition [:dbo :literaryGenre] :genre \.
                     :genre [:rdfs :label] :editiongenrelabel)))
+
+;fetch work.editor & work.director as well
+(defquery work-update
+  [work]
+  (select :id :director :directorname :editor :editorname)
+  (from (URI. "http://data.deichman.no/books"))
+  (where work [:fabio :hasManifestation] :edition \.
+         :id [:fabio :hasManifestation] :edition \.
+         (filter :id = work)
+         (optional work [:bibo :director] :director \.
+                    :director [:foaf :name] :directorname)
+         (optional work [:bibo :editor] :editor \.
+                  :editor [:foaf :name] :editorname)))
