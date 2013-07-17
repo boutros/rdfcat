@@ -5,7 +5,7 @@
                  [compojure "1.1.5"]
                  [enlive "1.1.1"]
                  [clj-http "0.7.3"]
-                 [clojurewerkz/elastisch "1.2.0-beta1"]
+                 [boutros/elastisch "1.2.0-beta4-SNAPSHOT"]
                  [matsu "0.1.3-SNAPSHOT"]
                  [com.taoensso/timbre "2.1.2"]
                  [domina "1.0.2-SNAPSHOT"]
