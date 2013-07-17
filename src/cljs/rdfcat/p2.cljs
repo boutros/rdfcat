@@ -101,5 +101,5 @@
 
 (defn ^:export init []
   (log "Hallo der, mister Åsen!")
-  (let [throttled-search (Throttle. (fn [evt] (search evt 1)) 400)]
+  (let [throttled-search (Throttle. (fn [evt] (search evt 1)) 300)]
     (event/listen! (by-class "medium-search") :input #(.fire throttled-search %) )))
