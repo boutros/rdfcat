@@ -1,8 +1,5 @@
 TODO
 ======
-* indekser offset 320,000 limit 6000
-* lag spørring og indekser manuelt: work.creator role=editor+director (illustrator? actor?)
-* vis mer en creator.first i venstrekolonne, eks Beatles m.fl, Jon Bing og Bringsvær
 * muliggjør deselect uspesifisert år
 * refakotrer og rydd opp
    - del p2-snippet opp i flere snippets
@@ -16,7 +13,7 @@ TODO
   SELECT * WHERE {<http://data.deichman.no/resource/tnr_431462> ?p ?o}
 * dc:abstract
 * hasPart, både uri og tekst?
-  SELECT * 
+  SELECT *
   FROM <http://data.deichman.no/books>
   WHERE { <http://data.deichman.no/resource/tnr_914497> ?p ?o}
 
