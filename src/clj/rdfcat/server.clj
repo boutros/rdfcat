@@ -25,7 +25,7 @@
 
 
 (defroutes app-routes
-  (GET "/" [] (redirect "p2"))
+  (GET "/" [] (redirect "p1"))
   (GET "/p1" [] (p1/anne-lena))
   (GET "/p2" [] (p2/petter))
   (GET "/search/p1" [term] "OK") ;use multi search  /_msearh
