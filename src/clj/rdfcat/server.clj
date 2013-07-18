@@ -34,7 +34,7 @@
                                   subjects-res (last res)]
                               (html-response
                                 (html/emit*
-                                  (p1/results name-res title-res subjects-res)))))
+                                  (p1/results name-res title-res subjects-res term)))))
   (POST "/search/p2" [who what page]
         (let [limit (config :p2-results-per-page)
               offset (* (dec page) limit)]
