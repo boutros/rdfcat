@@ -22,7 +22,7 @@
       (seq creators) (list-names (map :name creators))
       (seq editors) (str (list-names (map :name editors)) " (red.)" )
       (seq directors) (str (list-names (map :name directors)) " (regi)")
-      (seq directors) (str (list-names (map :name contributors)) " (bidrag)")
+      (seq contributors) (str (list-names (map :name contributors)) " (bidrag)")
       :else "(div)")))
 
 (defsnippet facets "p2-results.html" [:div.search-filters]
