@@ -118,7 +118,12 @@
                     [:td.format :img] (html/clone-for [f (edition :format)]
                                                         (html/set-attr :src (get-in formats [f :image] "?")
                                                                        :title (get-in formats [f :label] "?")))
-                    [:td.title] (html/content (edition :title))
+                    [:td.title :span.p2-title] (html/content (edition :title))
+                    [:td.title :span.p2-subtitle] (html/content
+                                                    (if-let [subtitle (edition :subtitle)]
+                                                      (str " · " subtitle)
+                                                      ""))
+
                     [:td.year] (html/content (str (edition :year)))
                     [:td.lang] (html/content (clojure.string/join ", " (remove #(= "Norsk" %) (edition :language)))))
                   [:td.p2-show-all :a] (html/content (str "Vis alle " (->> work :_source :edition count) " utgavene"))

@@ -142,6 +142,7 @@ tr.p2-edition { display: none;}
 tr.p2-show-editions { display:none;}
 tr.visible { display: inherit;}
 td.p2-title, td.p2-subjects, td.p2-author { padding: 0.5em 0;}
+span.p2-subtitle { color: #888;}
 td.p2-edition { font-size: 0.88em; text-align: left; }
 tr.p2-edition:hover { background:#eee; }
 td.format.p2-edition { min-width: 40px; }
