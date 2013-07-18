@@ -204,7 +204,18 @@ PROTOTYPER
 
 * Dropdownliste med valg for å spesifisere
 
+pre-resultater, søk "fisk"
 
+Person/organisasjon      se alle x treff
+* Lars Fiske - kom så løper vi
+* W Fiske - Icelandic notes
+
+Tittel                   se alle x treff
+* Evald Ingherad - Praktisk fiske
+* Anton Christiansen - Sportsfiskerliv
+
+Emne                     se alle x treff
+Lars Lenth - Den samme elva [fluefiske]
 
 1+2 Felles
 Filtrer resultat (alle disse gjelder utgave)
