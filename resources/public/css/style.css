@@ -173,8 +173,7 @@ td.p1-heading { background: #2594AE; color: #fff; font-size: 14px; padding: 4px;
 td.p1-show-all { text-align: right; padding-right:0.5em;}
 a.p1-show-all { background:inherit; color: yellow;}
 td.p1-result { font-size: 0.9em}
-td.p1-left { font-weight: 400; width: 33%; padding-right:1em;}
-td.p1-title { font-style: italic;}
+td.p1-left { font-weight: 500; width: 33%; padding-right:1em;}
 td.p1-subtitle { font-size: 12px;}
 tbody.p1-result:hover { background:#eee;}
 span.p1-subject { margin:0 0.2em; text-transform: uppercase; font-size:0.8em; display:inline-block;
