@@ -28,7 +28,13 @@
   (GET "/" [] (redirect "p1"))
   (GET "/p1" [] (p1/anne-lena))
   (GET "/p2" [] (p2/petter))
-  (GET "/search/p1" [term] "OK") ;use multi search  /_msearh
+  (POST "/search/p1" [term] (let [res (p1/search term)
+                                  name-res (first res)
+                                  title-res (second res)
+                                  subjects-res (last res)]
+                              (html-response
+                                (html/emit*
+                                  (p1/results name-res title-res subjects-res)))))
   (POST "/search/p2" [who what page]
         (let [limit (config :p2-results-per-page)
               offset (* (dec page) limit)]

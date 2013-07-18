@@ -165,3 +165,14 @@ span#p2-curpage { margin: 0 0.2em; font-weight: bold; color:#000;}
 .p2-select-lang:hover,
 .p2-select-format:hover { text-decoration: underline; color:#2594AE; cursor: pointer;}
 .year-missing  { margin: 1em 0.3em; font-style: italic;}
+
+/* p1 prototype "Anne-Lena" */
+.p1-results { width: 92%;}
+.p1-results td {vertical-align: top; }
+td.p1-heading { background: #2594AE; color: #fff; font-size: 14px; padding: 4px;}
+td.p1-show-all { text-align: right;}
+a.p1-show-all { background:inherit; color: yellow; margin-right:0.5em;}
+td.p1-result { font-size: 14px;}
+td.p1-left { font-weight: 400; width: 30%;}
+td.p1-subtitle { font-size: 12px;}
+tbody.p1-result:hover { background:#eee;}

@@ -15,10 +15,16 @@
             (pr-str data)
             (clj->js {"Content-Type" "application/edn"})))
 
+(defn search-handler [evt]
+  (let [response (.-target evt)
+        result (.getResponseText response)]
+    (dom/swap-content! (by-id "search-results") result)))
+
 (defn search [evt]
-  (do
-    (log "searching..")
-    "OK"))
+  (let [term (dom/value (by-id "pre-search"))]
+    (if (or (empty? term) (< (count term) 2))
+      (dom/destroy-children! (by-id "search-results"))
+      (ajax-call "/search/p1" search-handler "POST" {:term term}))))
 
 (defn ^:export init []
   (log "Hallo der, mister Åsen!")
