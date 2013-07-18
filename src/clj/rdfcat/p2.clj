@@ -17,11 +17,13 @@
   "Select which dc:creator, bibo:director or bibo:editor to show"
   (let [creators (filter #(= "creator" (:role %)) coll)
         directors (filter #(= "director" (:role %)) coll)
-        editors (filter #(= "editor" (:role %)) coll)]
+        editors (filter #(= "editor" (:role %)) coll)
+        contributors (filter #(= "contributor" (:role %)) coll)]
     (cond
       (seq creators) (list-names (map :name creators))
       (seq editors) (str (list-names (map :name editors)) " (red.)" )
       (seq directors) (str (list-names (map :name directors)) " (regi)")
+      (seq directors) (str (list-names (map :name contributors)) " (bidrag)")
       :else "(div)")))
 
 (defsnippet facets "p2-results.html" [:div.search-filters]
