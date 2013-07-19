@@ -1,6 +1,6 @@
 {
  :http-options {:throw-exceptions true :debug false :debug-body false
-                :socket-timeout 1500 :conn-timeout 1500}
+                :socket-timeout 7500 :conn-timeout 7500}
 
  :endpoint "http://marc2rdf.deichman.no/sparql"
  :dataset "http://data.deichman.no/books"

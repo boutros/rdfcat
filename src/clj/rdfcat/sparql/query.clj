@@ -23,6 +23,28 @@
   (offset start)
   (limit n))
 
+(defquery subjects []
+  (select-reduced :subject)
+  (from (URI. "http://data.deichman.no/books"))
+  (where :work [:fabio :hasManifestation] :edition \.
+         :edition [:dc :subject] :editionsubject \.
+         (union (group :editionsubject [:skos :prefLabel] :subject \.)
+                (group :editionsubject [:foaf :name] :subject \.))))
+
+(defquery litgenres []
+  (select-reduced :litgenre)
+  (from (URI. "http://data.deichman.no/books"))
+  (where :work [:fabio :hasManifestation] :edition \.
+         :edition [:dbo :literaryGenre] :genre \.
+         :genre [:rdfs :label] :litgenre))
+
+(defquery musgenres []
+  (select-reduced :musgenre)
+  (from (URI. "http://data.deichman.no/books"))
+  (where :work [:fabio :hasManifestation] :edition \.
+         :edition [:muso :genre] :editionmusicgenre \.
+         :editionmusicgenre [:rdfs :label] :musgenre))
+
 (defquery work
   [work]
   (select *)

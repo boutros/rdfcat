@@ -203,3 +203,19 @@
                    (->> (extract [:editor :editorname] (solutions res))
                         (map #(assoc % :role "editor"))
                         (map #(rename-keys % translation-map)))))})
+
+(defn merge-subjects
+  "Merges the subjects, literary genres and music genres"
+  [subjects litgenres musgenres]
+  (disj (->> (clojure.set/union subjects litgenres musgenres)
+             (map #(str/split % #"\s-\s"))
+             flatten
+             set)
+        "Norvegica" "genre" "GRUPPE-SKJØNNSAL" "GRUPPE-1"
+        "GRUPPE-10" "GRUPPE-11" "GRUPPE-12" "GRUPPE-13"
+        "GRUPPE-14" "GRUPPE-15" "GRUPPE-16" "GRUPPE-17"
+        "GRUPPE-18" "GRUPPE-19" "GRUPPE-20" "GRUPPE-21"
+        "GRUPPE-2a" "GRUPPE-2b" "GRUPPE-3" "GRUPPE-4"
+        "GRUPPE-5" "GRUPPE-6" "GRUPPE-7" "GRUPPE-8" "GRUPPE-9"
+        "GRUPPE-DATA" "GRUPPE-MILJØ" "GRUPPE-OSLO-HYLLA"
+        "GRUPPE-SKJØNNSAL" "GRUPPE-SLEKT" "GRUPPE-SPRÅK"))

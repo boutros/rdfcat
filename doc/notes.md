@@ -241,3 +241,25 @@ illustrator      illustrert av X
 translator       oversatt av Y
 
 
+
+update mappings
+==================
+
+curl -XPUT 'http://localhost:9200/rdfcat/subject/_mapping' -d '
+{
+  "subject": {
+    "index_analyzer": "str_index_analyzer",
+    "search_analyzer": "str_search_analyzer",
+    "_source": {
+      "enabled": true,
+      "compress": true
+    },
+    "properties": {
+      "label": {
+        "type": "string",
+        "index": "analyzed"
+      }
+    }
+  }
+}
+'

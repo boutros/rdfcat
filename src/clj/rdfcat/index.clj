@@ -4,6 +4,7 @@
             [clojurewerkz.elastisch.rest :as esr]
             [clojurewerkz.elastisch.rest.index :as esi]
             [clojurewerkz.elastisch.rest.document :as esd]
+            [clojurewerkz.elastisch.rest.bulk :as bulk]
             [rdfcat.sparql.query :as query]
             [rdfcat.sparql.response :refer :all]
             [taoensso.timbre :as timbre :refer [info error]])
@@ -87,3 +88,11 @@
               (swap! i inc))))
         (catch Exception e (error "Error indexing work:" work "because" (.getMessage e)))))
     (info "Done retrying. Sucessfully indexed" @i "of" n )))
+
+(defn index-subjects! []
+  (let [subjects (->> query/subjects fetch bindings :subject)
+        litgenres (->> query/litgenres fetch bindings :litgenre)
+        musgenres (->> query/musgenres fetch bindings :musgenre)
+        subjects-merged (merge-subjects subjects litgenres musgenres)
+        subjects-bulk (bulk/bulk-index (map #(assoc {} :label %) subjects-merged))]
+    (bulk/bulk-with-index-and-type "rdfcat" "subject" subjects-bulk)))

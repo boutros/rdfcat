@@ -31,6 +31,20 @@
     }
   },
   "mappings": {
+    "subject": {
+      "index_analyzer": "str_index_analyzer",
+      "search_analyzer": "str_search_analyzer",
+      "_source": {
+        "enabled": true,
+        "compress": true
+      },
+      "properties": {
+        "label": {
+          "type": "string",
+          "index": "analyzed"
+        }
+      }
+    },
     "work": {
       "index_analyzer": "str_index_analyzer",
       "search_analyzer": "str_search_analyzer",
