@@ -118,7 +118,9 @@
                     [:td.format :img] (html/clone-for [f (edition :format)]
                                                         (html/set-attr :src (get-in formats [f :image] "?")
                                                                        :title (get-in formats [f :label] "?")))
-                    [:td.title :span.p2-title] (html/content (edition :title))
+                    [:td.title :a.p2-title] (html/do->
+                                              (html/content (edition :title))
+                                              (html/set-attr :href (edition :id)))
                     [:td.title :span.p2-subtitle] (html/content
                                                     (if-let [subtitle (edition :subtitle)]
                                                       (str " · " subtitle)

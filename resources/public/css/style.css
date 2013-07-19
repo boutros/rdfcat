@@ -18,7 +18,7 @@ h1, h2 {
   word-spacing: 0;
 }
 
-a, a:visited {
+a, a:visited, a.p2-title:visited {
   color:#2594AE;
   background: #f5f5f5;
   text-decoration: none;
