@@ -140,13 +140,13 @@
   {:must {:match {"name" {:query who :operator "and"}}}})
 
 (defn only-what [what]
-  {:must {:multi_match {:query what :operator "and"
+  {:must {:multi_match {:query what :operator "or"
                         :fields ["work.title" "edition.title" "edition.subtitle" "work.subject"]}}})
 
 (defn who-and-what [who what]
   {:must [{:match {"name" {:query who :operator "and"}}}
           {:multi_match
-           {:query what :operator "and"
+           {:query what :operator "or"
             :fields ["work.title" "edition.title" "edition.subtitle" "work.subject"]}}]})
 
 (defn search [who what offset limit]
