@@ -23,26 +23,28 @@
   (offset start)
   (limit n))
 
-(defquery subjects []
-  (select-reduced :subject)
+(defquery subjects [start n]
+  (select-distinct :subject)
   (from (URI. "http://data.deichman.no/books"))
-  (where :work [:fabio :hasManifestation] :edition \.
-         :edition [:dc :subject] :editionsubject \.
+  (where :doc a [:bibo :Document] \.
+         :doc [:dc :subject] :editionsubject \.
          (union (group :editionsubject [:skos :prefLabel] :subject \.)
-                (group :editionsubject [:foaf :name] :subject \.))))
+                (group :editionsubject [:foaf :name] :subject \.)))
+  (offset start)
+  (limit n))
 
 (defquery litgenres []
-  (select-reduced :litgenre)
+  (select-distinct :litgenre)
   (from (URI. "http://data.deichman.no/books"))
-  (where :work [:fabio :hasManifestation] :edition \.
-         :edition [:dbo :literaryGenre] :genre \.
+  (where :doc a [:bibo :Document] \.
+         :doc [:dbo :literaryGenre] :genre \.
          :genre [:rdfs :label] :litgenre))
 
 (defquery musgenres []
-  (select-reduced :musgenre)
+  (select-distinct :musgenre)
   (from (URI. "http://data.deichman.no/books"))
-  (where :work [:fabio :hasManifestation] :edition \.
-         :edition [:muso :genre] :editionmusicgenre \.
+  (where :doc a [:bibo :Document] \.
+         :doc [:muso :genre] :editionmusicgenre \.
          :editionmusicgenre [:rdfs :label] :musgenre))
 
 (defquery work

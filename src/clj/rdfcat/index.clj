@@ -90,7 +90,9 @@
     (info "Done retrying. Sucessfully indexed" @i "of" n )))
 
 (defn index-subjects! []
-  (let [subjects (->> query/subjects fetch bindings :subject)
+  (let [subjects (apply clojure.set/union
+                   (for [i (range 0 70000 10000)]
+                     (->> (query/subjects i 10000) fetch bindings :subject)))
         litgenres (->> query/litgenres fetch bindings :litgenre)
         musgenres (->> query/musgenres fetch bindings :musgenre)
         subjects-merged (merge-subjects subjects litgenres musgenres)
