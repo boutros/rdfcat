@@ -48,8 +48,7 @@
       "index_analyzer": "new_index_analyzer",
       "search_analyzer": "str_search_analyzer",
       "_source": {
-        "enabled": true,
-        "compress": true
+        "enabled": true
       },
       "properties": {
         "label": {
