@@ -28,5 +28,5 @@
 
 (defn ^:export init []
   (log "Hallo der, mister Åsen!")
-  (let [throttled-search (Throttle. (fn [evt] (search evt)) 300)]
+  (let [throttled-search (Throttle. (fn [evt] (search evt)) 250)]
     (event/listen! (by-class "big-search") :input #(.fire throttled-search %) )))

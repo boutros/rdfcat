@@ -29,9 +29,7 @@
   [:tbody.p1-result.p1-author]
   (let [name-hits (->> name-res :hits :hits)]
     (html/clone-for [{res :_source} name-hits]
-                    [:td.p1-author] (html/content (pp-creators (res :creator)))
-                    [:td.p1-title] (html/content (res :title))
-                    [:td.p1-subtitle] (html/content "")))
+                    [:td.p1-author] (html/content (res :name))))
 
   [:td.p1-show-all.p1-title]
   (let [title-total (->> title-res :hits :total int)]
@@ -60,10 +58,7 @@
 
 (defn pre-queries
   [s n]
-  [{:type "work"} {:query {:multi_match
-               {:query s
-                :fields ["work.creator.name" "edition.creator.name"]}}
-       :size n}
+  [{:type "creator"} {:query {:match {"name" {:query s :operator "and"}}} :size n}
    {:type "work"} {:query {:multi_match
                {:query s
                 :fields ["work.title" "edition.title" "edition.subtitle"]}}

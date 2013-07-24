@@ -98,3 +98,11 @@
         subjects-merged (merge-subjects subjects litgenres musgenres)
         subjects-bulk (bulk/bulk-index (map #(assoc {} :label %) subjects-merged))]
     (bulk/bulk-with-index-and-type "rdfcat" "subject" subjects-bulk)))
+
+(defn index-creators! []
+  (doseq [i (range 0 133000 10000)]
+    (let [creators (->> (query/creators i 10000) fetch solutions
+                        (extract [:_id :name :lifespan :type :note])
+                        (map #(assoc % :type (if (re-seq #"Person" (% :type)) "person" "organization"))))
+          creators-bulk (bulk/bulk-index creators)]
+      (bulk/bulk-with-index-and-type "rdfcat" "creator" creators-bulk))))

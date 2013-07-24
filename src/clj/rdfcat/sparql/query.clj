@@ -47,6 +47,17 @@
          :doc [:muso :genre] :editionmusicgenre \.
          :editionmusicgenre [:rdfs :label] :musgenre))
 
+(defquery creators [start size]
+  (select-distinct :_id :name :type :lifespan :note)
+  (from (URI. "http://data.deichman.no/books"))
+  (where :document [:dc :creator] :_id \.
+         :_id a :type \;
+             [:foaf :name] :name \.
+         (optional :_id [:deichman :lifespan] :lifespan)
+         (optional :_id [:skos :note] :note))
+  (offset start)
+  (limit size))
+
 (defquery work
   [work]
   (select *)
