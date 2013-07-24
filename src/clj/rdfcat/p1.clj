@@ -55,26 +55,20 @@
   [:tbody.p1-result.p1-subject]
   (let [subject-hits (->> subject-res :hits :hits)]
     (html/clone-for [{res :_source} subject-hits]
-                    [:td.p1-author] (html/content (pp-creators (res :creator)))
-                    [:td.p1-title] (html/do->
-                                     (html/content (res :title))
-                                     (html/append (for [subject (if-match (res :subject) term)]
-                                                  {:tag :span :attrs {:class "p1-subject"}
-                                                   :content subject})))
-                    [:td.p1-subtitle] (html/content "")))
+                    [:td.p1-subject] (html/content (res :label))))
   )
 
 (defn pre-queries
   [s n]
-  [{} {:query {:multi_match
+  [{:type "work"} {:query {:multi_match
                {:query s
                 :fields ["work.creator.name" "edition.creator.name"]}}
        :size n}
-   {} {:query {:multi_match
+   {:type "work"} {:query {:multi_match
                {:query s
                 :fields ["work.title" "edition.title" "edition.subtitle"]}}
        :size n}
-   {} {:query {:match {:subject s}} :size n}])
+   {:type "subject"} {:query {:match {:label s}} :size n}])
 
 (defn search [term]
-  (multi/search-with-index-and-type "rdfcat" "work" (pre-queries term (config :p1-pre-results-per-concept))))
+  (multi/search-with-index "rdfcat" (pre-queries term (config :p1-pre-results-per-concept))))
