@@ -11,6 +11,14 @@
               "mynGram"
             ]
           },
+          "new_index_analyzer": {
+            "type": "custom",
+            "tokenizer": "standard",
+            "filter": [
+              "lowercase",
+              "ngramAll"
+            ]
+          },
           "str_search_analyzer": {
             "type": "custom",
             "tokenizer": "standard",
@@ -25,6 +33,11 @@
             "type": "nGram",
             "min_gram": 2,
             "max_gram": 20
+          },
+          "ngramAll": {
+            "type": "nGgram",
+            "min_gram": 1,
+            "max_gram": 20
           }
         }
       }
@@ -32,16 +45,40 @@
   },
   "mappings": {
     "subject": {
-      "index_analyzer": "str_index_analyzer",
+      "index_analyzer": "new_index_analyzer",
       "search_analyzer": "str_search_analyzer",
       "_source": {
-        "enabled": true,
-        "compress": true
+        "enabled": true
       },
       "properties": {
         "label": {
           "type": "string",
           "index": "analyzed"
+        }
+      }
+    },
+    "creator": {
+      "index_analyzer": "new_index_analyzer",
+      "search_analyzer": "str_search_analyzer",
+      "_source": {
+        "enabled": true
+      },
+      "properties": {
+        "name": {
+          "type": "string",
+          "index": "analyzed"
+        },
+        "lifespan": {
+          "type": "string",
+          "index": "not_analyzed"
+        },
+        "type": {
+          "type": "string",
+          "index": "not_analyzed"
+        },
+        "note": {
+          "type": "string",
+          "index": "not_analyzed"
         }
       }
     },

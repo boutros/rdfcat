@@ -263,3 +263,33 @@ curl -XPUT 'http://localhost:9200/rdfcat/subject/_mapping' -d '
   }
 }
 '
+
+curl -XPUT 'http://localhost:9200/rdfcat/creator/_mapping' -d '
+{
+  "creator": {
+    "index_analyzer": "str_index_analyzer",
+    "search_analyzer": "str_search_analyzer",
+    "_source": {
+      "enabled": true
+    },
+    "properties": {
+      "name": {
+        "type": "string",
+        "index": "analyzed"
+      },
+      "lifespan": {
+        "type": "string",
+        "index": "not_analyzed"
+      },
+      "type": {
+        "type": "string",
+        "index": "not_analyzed"
+      },
+      "note": {
+        "type": "string",
+        "index": "not_analyzed"
+      }
+    }
+  }
+}
+'
