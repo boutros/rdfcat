@@ -68,7 +68,7 @@
                {:query s
                 :fields ["work.title" "edition.title" "edition.subtitle"]}}
        :size n}
-   {:type "subject"} {:query {:match {:label s}} :size n}])
+   {:type "subject"} {:query {:match {"label" {:query s :operator "and"}}} :size n}])
 
 (defn search [term]
   (multi/search-with-index "rdfcat" (pre-queries term (config :p1-pre-results-per-concept))))
