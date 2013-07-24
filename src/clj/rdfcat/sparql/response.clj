@@ -210,6 +210,7 @@
   (disj (->> (clojure.set/union subjects litgenres musgenres)
              (map #(str/split % #"\s-\s"))
              flatten
+             (remove #(re-matches #"^[0-9\.]+$" %))
              set)
         "Norvegica" "genre" "GRUPPE-SKJØNNSAL" "GRUPPE-1"
         "GRUPPE-10" "GRUPPE-11" "GRUPPE-12" "GRUPPE-13"
